@@ -1,4 +1,4 @@
-import Logo from '../../assets/Logo.png'
+import Logo from '../../assets/logo.png'
 // import Menu from '../../assets/Icons/Menu.svg'
 import FilmCard from '../../components/FilmCard'
 import { useEffect, useState } from 'react'
