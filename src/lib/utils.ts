@@ -1,0 +1,1 @@
+export const linkStyle = 'h-[86px] w-[226px] flex justify-center items-center px-[42px] focus:bg-[#BE123C] focus:bg-opacity-10 focus:text-[#BE123C] focus:border-r-4 focus:border-r-[#BE123C]'
