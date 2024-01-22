@@ -61,12 +61,12 @@ const Home = () => {
     }
     getMovies()
   }, [])
-  const imageUrl = moviesData ? `https://image.tmdb.org/t/p/w1280${moviesData.data.results[1].poster_path}` : '1E5baAaEse26fej7uHcjOgEE2t2.jpg'
+  const imageUrl = moviesData ? `https://image.tmdb.org/t/p/original/${moviesData.data.results[1].backdrop_path}` : '1E5baAaEse26fej7uHcjOgEE2t2.jpg'
   console.log(imageUrl)
   
   return (
     <main className="max-w-screen h-screen text-white">
-      <section className={`w-full h-4/6 bg-zinc-800 bg-no-repeat bg-cover bg-center flex flex-col justify-between pb-8`} style={{backgroundImage: `url(${imageUrl})`}}>
+      <section className={`w-full h-[600px] lg:h-full bg-zinc-800 bg-no-repeat bg-cover bg-center flex flex-col justify-between pb-8`} style={{backgroundImage: `url(${imageUrl})`}}>
         <nav className='px-8 lg:px-[95px] pt-[15px] flex flex-col md:flex-row justify-between'>
           <img src={Logo} alt="" className=''/>
           <input type="search" name="" id="" className='md:w-1/3 w-full h-[36px] mt-[7px] px-2 hidden md:block bg-transparent border border-white outline-none rounded-lg'/>
