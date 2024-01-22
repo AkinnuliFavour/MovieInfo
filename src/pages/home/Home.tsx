@@ -92,7 +92,7 @@ const Home = () => {
         </div>
         <section className='grid grid-cols-1 justify-items-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-6'>
           {
-            genreData && moviesData?.data.results.slice(0,10).map(movie => <FilmCard movie={movie} genre={genreData}/>)
+            genreData && moviesData?.data.results.slice(0,12).map(movie => <FilmCard movie={movie} genre={genreData}/>)
           }
         </section>
       </section>

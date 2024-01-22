@@ -59,12 +59,12 @@ const SingleMovie = () => {
         <p className='px-[20px]'>Log out</p>
       </nav>
       <section className='mt-[38px] ml-[263px] mr-6'>
-        <section className={`w-full h-full bg-zinc-800 bg-no-repeat bg-contain bg-center pb-8`} style={{backgroundImage: `url(https://image.tmdb.org/t/p/w1280${movieDetails?.data.poster_path})`}}/>
-        <div className='flex gap-4'>
-            <span data-testid = 'movie-title'>Title: {movieDetails?.data.original_title}</span>
-            <p>Action</p>
-            <p>Drama</p>
-        </div>
+        <section className={`w-full h-full bg-no-repeat bg-contain bg-center`} style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieDetails?.data.backdrop_path})`}}/>
+          <div className='flex gap-4'>
+              <span data-testid = 'movie-title'>Title: {movieDetails?.data.original_title}</span>
+              <p>Action</p>
+              <p>Drama</p>
+          </div>
         <p className='mt-4' data-testid = 'movie-overview'>{movieDetails?.data.overview}</p>
         <p className='mt-4' data-testid = 'movie-release-date'>Release Date: {movieDetails?.data.release_date}</p>
         <p className='mt-4' data-testid = 'movie-runtime'>Runtime:  {movieDetails?.data.runtime} mins</p>
