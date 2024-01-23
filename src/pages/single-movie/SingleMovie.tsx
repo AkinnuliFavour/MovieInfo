@@ -9,7 +9,10 @@ interface MovieDetails {
   data: {
     adult: boolean
     backdrop_path: string
-    genre_ids: number[]
+    genres: {
+      id: number
+      name: string
+    }[]
     id: number
     original_language: string
     original_title: string
@@ -25,10 +28,30 @@ interface MovieDetails {
   }
 }
 
+interface MovieVideos {
+  data: {
+    id: number
+    results: {
+      id: string
+      iso_639_1: string
+      iso_3166_1: string
+      key: string
+      name: string
+      official: boolean
+      published_at: string
+      site: string
+      size: number
+      type: string
+    }[]
+  }
+}
+
 const SingleMovie = () => {
-  const [movieDetails, setMovieDetails] = useState<MovieDetails>()
   const {id} = useParams()
+  const [movieDetails, setMovieDetails] = useState<MovieDetails>()
+  const [movieVideos, setMovieVideos] = useState<MovieVideos>()
   console.log(id)
+
   useEffect(() => {
     const getMovieDetails = async() => {
       const movie = await axios.get(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, {
@@ -42,6 +65,19 @@ const SingleMovie = () => {
     getMovieDetails()
   }, [id])
 
+  useEffect(() => {
+    const getMovieVideos = async() => {
+      const videos = await axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`, {
+        params:{
+          api_key: import.meta.env.VITE_TMDB_API_KEY
+        }
+      })
+      console.log(videos)
+      setMovieVideos(videos)
+    }
+    getMovieVideos()
+  }, [id])
+
   const releaseDate = movieDetails ? movieDetails?.data.release_date : ''
   const date = new Date(releaseDate)
 
@@ -50,9 +86,13 @@ const SingleMovie = () => {
   const runtime = movieDetails ? movieDetails?.data.runtime : 0
   const hours = Math.floor(runtime / 60)
   const minutes = runtime % 60
+
+  const trailer = movieVideos ? movieVideos?.data.results.find(result => result.type === 'Trailer') : ''
+  const trailerKey = trailer ? trailer.key : ''
+
   return (
     <main className="flex h-screen max-w-screen">
-      <nav className="border-r min-h-screen border-black border-opacity-30 rounded-r-3xl w-1/6 py-10 flex flex-col justify-between fixed top-0 left-0">
+      <nav className="border-r min-h-screen border-black border-opacity-30 rounded-r-3xl w-1/6 py-10 hidden lg:flex flex-col justify-between fixed top-0 left-0">
         <div className='px-[20px]'>
           <img src={Logo} alt="" className='w-[186px] h-[50px]'/>
         </div>
@@ -67,14 +107,21 @@ const SingleMovie = () => {
         </div>
         <p className='px-[20px]'>Log out</p>
       </nav>
-      <section className='ml-[263px] mr-6 w-5/6'>
-        <section className="w-full h-[90%] xl:h-full bg-no-repeat bg-contain bg-center rounded-[30px]" style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieDetails?.data.backdrop_path})`}}/>
-          <div className='flex gap-4 px-[18px]'>
+      <section className='flex flex-col px-4 lg:ml-[263px] lg:mr-6 mt-[38px] w-full h-full lg:w-5/6'>
+        {/* <video src={`https://www.youtube.com/watch?v=${trailerKey}`} className="w-full h-[449px] xl:h-full bg-no-repeat bg-contain bg-center rounded-[30px]" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w780/${movieDetails?.data.backdrop_path})`}}/> */}
+        {/* <video src={`https://www.youtube.com/watch?v=${trailerKey}`} width={400} controls></video> */}
+        <iframe width="420" height="315" src={`https://www.youtube.com/embed/${trailerKey}`} className="w-full h-[449px] bg-no-repeat bg-contain bg-center rounded-[30px]"></iframe>
+          <div className='flex gap-4 px-[18px] mt-[31px]'>
               <span data-testid = 'movie-title' className='text-[#404040] font-medium text-[23px]'>{movieDetails?.data.original_title} • {date.getFullYear()} • {Pg} • {`${hours}h ${minutes}m`}</span>
-              <p className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'>Action</p>
-              <p className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'>Drama</p>
+              {
+                movieDetails?.data.genres.map((genre) => (
+                  <p className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'>{genre.name}</p>
+                ))
+              }
+              {/* <span className='text-[#404040] font-medium text-[23px]'>⭐ {movieDetails?.data.vote_average}</span> */}
+              {/* <p className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'>Drama</p> */}
           </div>
-        <p className='mt-4 px-[18px] text-[20px]' data-testid = 'movie-overview'>{movieDetails?.data.overview}</p>
+        <p className='mt-4 px-[18px] font-normal' data-testid = 'movie-overview'>{movieDetails?.data.overview}</p>
         <p className='mt-4 px-[18px]' data-testid = 'movie-release-date'>Release Date: {movieDetails?.data.release_date}</p>
         <p className='mt-4 px-[18px]' data-testid = 'movie-runtime'>Runtime:  {movieDetails?.data.runtime} mins</p>
         <p className='mt-4 pb-4 px-[18px]'></p>
