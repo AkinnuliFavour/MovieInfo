@@ -90,7 +90,7 @@ const Home = () => {
             <Chevron className='w-[20px] h-[20px]'/>
           </div>
         </div>
-        <section className='grid grid-cols-1 justify-items-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-6'>
+        <section className='grid grid-cols-1 justify-items-center xl:justify-items-start md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-[80px] gap-y-[44px] pb-6'>
           {
             genreData && moviesData?.data.results.slice(0,12).map(movie => <FilmCard movie={movie} genre={genreData}/>)
           }
