@@ -41,6 +41,15 @@ const SingleMovie = () => {
     }
     getMovieDetails()
   }, [id])
+
+  const releaseDate = movieDetails ? movieDetails?.data.release_date : ''
+  const date = new Date(releaseDate)
+
+  const Pg = movieDetails?.data.adult ? 'PG-18' : 'PG-13'
+
+  const runtime = movieDetails ? movieDetails?.data.runtime : 0
+  const hours = Math.floor(runtime / 60)
+  const minutes = runtime % 60
   return (
     <main className="flex h-screen max-w-screen">
       <nav className="border-r min-h-screen border-black border-opacity-30 rounded-r-3xl w-1/6 py-10 flex flex-col justify-between fixed top-0 left-0">
@@ -58,17 +67,17 @@ const SingleMovie = () => {
         </div>
         <p className='px-[20px]'>Log out</p>
       </nav>
-      <section className='mt-[38px] ml-[263px] mr-6 w-5/6'>
-        <section className="w-full h-full bg-no-repeat bg-contain bg-center rounded-[30px]" style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieDetails?.data.backdrop_path})`}}/>
-          <div className='flex gap-4'>
-              <span data-testid = 'movie-title'>Title: {movieDetails?.data.original_title}</span>
-              <p>Action</p>
-              <p>Drama</p>
+      <section className='ml-[263px] mr-6 w-5/6'>
+        <section className="w-full h-[90%] xl:h-full bg-no-repeat bg-contain bg-center rounded-[30px]" style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieDetails?.data.backdrop_path})`}}/>
+          <div className='flex gap-4 px-[18px]'>
+              <span data-testid = 'movie-title' className='text-[#404040] font-medium text-[23px]'>{movieDetails?.data.original_title} • {date.getFullYear()} • {Pg} • {`${hours}h ${minutes}m`}</span>
+              <p className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'>Action</p>
+              <p className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'>Drama</p>
           </div>
-        <p className='mt-4' data-testid = 'movie-overview'>{movieDetails?.data.overview}</p>
-        <p className='mt-4' data-testid = 'movie-release-date'>Release Date: {movieDetails?.data.release_date}</p>
-        <p className='mt-4' data-testid = 'movie-runtime'>Runtime:  {movieDetails?.data.runtime} mins</p>
-        <p className='mt-4 pb-4'></p>
+        <p className='mt-4 px-[18px] text-[20px]' data-testid = 'movie-overview'>{movieDetails?.data.overview}</p>
+        <p className='mt-4 px-[18px]' data-testid = 'movie-release-date'>Release Date: {movieDetails?.data.release_date}</p>
+        <p className='mt-4 px-[18px]' data-testid = 'movie-runtime'>Runtime:  {movieDetails?.data.runtime} mins</p>
+        <p className='mt-4 pb-4 px-[18px]'></p>
       </section>
     </main>
   )
