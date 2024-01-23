@@ -58,7 +58,7 @@ const SingleMovie = () => {
         </div>
         <p className='px-[20px]'>Log out</p>
       </nav>
-      <section className='mt-[38px] ml-[263px] mr-6'>
+      <section className='mt-[38px] ml-[263px] mr-6 w-5/6'>
         <section className="w-full h-full bg-no-repeat bg-contain bg-center rounded-[30px]" style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieDetails?.data.backdrop_path})`}}/>
           <div className='flex gap-4'>
               <span data-testid = 'movie-title'>Title: {movieDetails?.data.original_title}</span>
