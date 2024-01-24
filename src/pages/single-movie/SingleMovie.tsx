@@ -46,10 +46,43 @@ interface MovieVideos {
   }
 }
 
+interface MovieCredits {
+  data:{
+    cast: {
+      adult: boolean
+      cast_id: number
+      character: string
+      credit_id: string
+      gender: number
+      id: number
+      known_for_department: string
+      name: string
+      order: number
+      original_name: string
+      popularity: number
+      profile_path: string
+    }[]
+    crew:{
+      adult: boolean
+      credit_id: string 
+      department: string
+      gender: number
+      id: number
+      job: string
+      known_for_department: string
+      name: string
+      original_name: string
+      popularity: number
+      profile_path: string
+    }[]
+  }
+}
+
 const SingleMovie = () => {
   const {id} = useParams()
   const [movieDetails, setMovieDetails] = useState<MovieDetails>()
   const [movieVideos, setMovieVideos] = useState<MovieVideos>()
+  const [movieCredits, setMovieCredits] = useState<MovieCredits>()
   console.log(id)
 
   useEffect(() => {
@@ -78,6 +111,19 @@ const SingleMovie = () => {
     getMovieVideos()
   }, [id])
 
+  useEffect(() => {
+    const getMovieCredits = async() => {
+      const credits = await axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`, {
+        params:{
+          api_key: import.meta.env.VITE_TMDB_API_KEY
+        }
+      })
+      console.log(credits)
+      setMovieCredits(credits)
+    }
+    getMovieCredits()
+  }, [id])
+
   const releaseDate = movieDetails ? movieDetails?.data.release_date : ''
   const date = new Date(releaseDate)
 
@@ -89,6 +135,13 @@ const SingleMovie = () => {
 
   const trailer = movieVideos ? movieVideos?.data.results.find(result => result.type === 'Trailer') : ''
   const trailerKey = trailer ? trailer.key : ''
+
+  const stars = movieCredits ? movieCredits?.data.cast.filter(actor => actor.popularity > 60) : ''
+  const starNames = stars ? stars.map(star => star.name) : null
+  const actorNames = movieCredits ? movieCredits?.data.cast.map(actor => actor.name) : ''
+  const mainActors = actorNames ? actorNames.slice(0, 3) : ''
+  const director = movieCredits?.data.crew.find(crew => crew.job === 'Director')
+  console.log(director)
 
   return (
     <main className="flex h-screen max-w-screen">
@@ -122,8 +175,8 @@ const SingleMovie = () => {
               {/* <p className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'>Drama</p> */}
           </div>
         <p className='mt-4 px-[18px] font-normal' data-testid = 'movie-overview'>{movieDetails?.data.overview}</p>
-        <p className='mt-4 px-[18px]' data-testid = 'movie-release-date'>Release Date: {movieDetails?.data.release_date}</p>
-        <p className='mt-4 px-[18px]' data-testid = 'movie-runtime'>Runtime:  {movieDetails?.data.runtime} mins</p>
+        <p className='mt-4 px-[18px]' data-testid = 'movie-release-date'>Director: {director?.name}</p>
+        <p className='mt-4 px-[18px]' data-testid = 'movie-runtime'>Stars:  {starNames?.join(', ') || mainActors}</p>
         <p className='mt-4 pb-4 px-[18px]'></p>
       </section>
     </main>
