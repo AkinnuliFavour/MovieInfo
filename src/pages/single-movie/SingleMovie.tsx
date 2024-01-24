@@ -139,7 +139,7 @@ const SingleMovie = () => {
   const stars = movieCredits ? movieCredits?.data.cast.filter(actor => actor.popularity > 60) : ''
   const starNames = stars ? stars.map(star => star.name) : null
   const actorNames = movieCredits ? movieCredits?.data.cast.map(actor => actor.name) : ''
-  const mainActors = actorNames ? actorNames.slice(0, 3) : ''
+  const mainActors = actorNames ? actorNames.slice(0, 3) : null
   const director = movieCredits?.data.crew.find(crew => crew.job === 'Director')
   console.log(director)
 
@@ -150,7 +150,7 @@ const SingleMovie = () => {
           <img src={Logo} alt="" className='w-[186px] h-[50px]'/>
         </div>
         <ul className='h-[300px] w-full flex flex-col justify-between'>
-            <li className=''><Link to='' className={linkStyle}>Home</Link></li>
+            <li className=''><Link to='/' className={linkStyle}>Home</Link></li>
             <li><Link to='' className={linkStyle}>Movies</Link></li>
             <li><Link to='' className={linkStyle}>TV series</Link></li>
             <li><Link to='' className={linkStyle}>Upcoming</Link></li>
@@ -175,7 +175,7 @@ const SingleMovie = () => {
           </div>
         <p className='mt-4 px-[18px] font-normal' data-testid = 'movie-overview'>{movieDetails?.data.overview}</p>
         <p className='mt-4 px-[18px]' data-testid = 'movie-release-date'>Director: <span className='text-[#BE123C]'>{director?.name}</span></p>
-        <p className='mt-4 px-[18px]' data-testid = 'movie-runtime'>Stars:  <span className='text-[#BE123C]'>{starNames?.join(', ') || mainActors}</span></p>
+        <p className='mt-4 px-[18px]' data-testid = 'movie-runtime'>Stars:  <span className='text-[#BE123C]'>{starNames?.join(', ') || mainActors?.join(', ')}</span></p>
         <p className='mt-4 px-[18px]'>Rating:   <span className='text-[#BE123C]'>⭐ {movieDetails?.data.vote_average.toFixed(1)}</span></p>
         <p className='mt-4 pb-4 px-[18px]'></p>
       </section>
