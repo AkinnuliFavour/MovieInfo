@@ -171,12 +171,12 @@ const SingleMovie = () => {
                   <p className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'>{genre.name}</p>
                 ))
               }
-              {/* <span className='text-[#404040] font-medium text-[23px]'>⭐ {movieDetails?.data.vote_average}</span> */}
               {/* <p className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'>Drama</p> */}
           </div>
         <p className='mt-4 px-[18px] font-normal' data-testid = 'movie-overview'>{movieDetails?.data.overview}</p>
-        <p className='mt-4 px-[18px]' data-testid = 'movie-release-date'>Director: {director?.name}</p>
-        <p className='mt-4 px-[18px]' data-testid = 'movie-runtime'>Stars:  {starNames?.join(', ') || mainActors}</p>
+        <p className='mt-4 px-[18px]' data-testid = 'movie-release-date'>Director: <span className='text-[#BE123C]'>{director?.name}</span></p>
+        <p className='mt-4 px-[18px]' data-testid = 'movie-runtime'>Stars:  <span className='text-[#BE123C]'>{starNames?.join(', ') || mainActors}</span></p>
+        <p className='mt-4 px-[18px]'>Rating:   <span className='text-[#BE123C]'>⭐ {movieDetails?.data.vote_average.toFixed(1)}</span></p>
         <p className='mt-4 pb-4 px-[18px]'></p>
       </section>
     </main>
