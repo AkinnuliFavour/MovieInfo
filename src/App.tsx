@@ -1,6 +1,6 @@
 // import { useState } from 'react'
 import Home from "./pages/home/Home"
-import Movies from "./pages/movies/Movies"
+import Movies from "./pages/top-rated/TopRated"
 import SingleMovie from "./pages/single-movie/SingleMovie"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Upcoming from "./pages/upcoming/Upcoming"
