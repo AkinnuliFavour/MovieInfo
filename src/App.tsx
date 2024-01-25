@@ -3,6 +3,7 @@ import Home from "./pages/home/Home"
 import Movies from "./pages/movies/Movies"
 import SingleMovie from "./pages/single-movie/SingleMovie"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Upcoming from "./pages/upcoming/Upcoming"
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movies" element={<Movies />} />
+        <Route path="/upcoming" element={<Upcoming />} />
         <Route path="/movie-details/:id" element={<SingleMovie />} />
       </Routes>
     </BrowserRouter>
