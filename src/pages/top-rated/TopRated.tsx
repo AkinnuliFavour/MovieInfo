@@ -4,7 +4,7 @@ import { MoviesData, GenreData } from "../home/Home"
 import FilmCard from '../../components/FilmCard'
 import SideNav from "../../components/SideNav"
 
-const Movies = () => {
+const TopRated = () => {
     const [moviesData, setMoviesData] = useState<MoviesData>()
     const [genreData, setGenreData] = useState<GenreData>()
 
@@ -42,4 +42,4 @@ const Movies = () => {
   )
 }
 
-export default Movies
+export default TopRated
