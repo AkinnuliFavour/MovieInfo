@@ -2,10 +2,10 @@ import Logo from '../../assets/logo.png'
 // import Menu from '../../assets/Icons/Menu.svg'
 import FilmCard from '../../components/FilmCard'
 import { useEffect, useState } from 'react'
-// import api from '../../api/movie'
 import axios from 'axios'
 import { ReactComponent as Menu } from '../../assets/Icons/Menu alt 4-1.svg'
 import { ReactComponent as Chevron} from '../../assets/Icons/Chevron right-1.svg'
+import { Link } from 'react-router-dom'
 
 export interface MoviesData {
   data:{
@@ -85,10 +85,10 @@ const Home = () => {
       <section className='mt-8 px-8 lg:px-[95px] w-full'>
         <div className='flex justify-between items-center'>
           <p className='text-black text-[36px] font-semibold'>Featured Movie</p>
-          <div className='flex justify-center items-center text-center gap-1 w-28'>
+          <Link to='/now-playing' className='flex justify-center items-center text-center gap-1 w-28'>
             <p className='text-[#BE123C] text-sm'>See More</p>
             <Chevron className='w-[20px] h-[20px]'/>
-          </div>
+          </Link>
         </div>
         <section className='grid grid-cols-1 justify-items-center xl:justify-items-start md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-[80px] gap-y-[44px] pb-6'>
           {
