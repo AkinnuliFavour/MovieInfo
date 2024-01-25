@@ -7,7 +7,7 @@ import axios from 'axios'
 import { ReactComponent as Menu } from '../../assets/Icons/Menu alt 4-1.svg'
 import { ReactComponent as Chevron} from '../../assets/Icons/Chevron right-1.svg'
 
-interface MoviesData {
+export interface MoviesData {
   data:{
     results: {
       adult: boolean
@@ -28,7 +28,7 @@ interface MoviesData {
   }
 }
 
-interface GenreData {
+export interface GenreData {
   data:{
     genres:{
       id: number

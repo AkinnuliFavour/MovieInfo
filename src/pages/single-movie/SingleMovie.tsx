@@ -1,9 +1,7 @@
-import { Link } from 'react-router-dom'
-import Logo from '../../assets/logo-dark-text.png'
-import { linkStyle } from '../../lib/utils'
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import SideNav from '../../components/SideNav'
 
 interface MovieDetails {
   data: {
@@ -145,21 +143,7 @@ const SingleMovie = () => {
 
   return (
     <main className="flex h-screen max-w-screen">
-      <nav className="border-r min-h-screen border-black border-opacity-30 rounded-r-3xl w-1/6 py-10 hidden lg:flex flex-col justify-between fixed top-0 left-0">
-        <div className='px-[20px]'>
-          <img src={Logo} alt="" className='w-[186px] h-[50px]'/>
-        </div>
-        <ul className='h-[300px] w-full flex flex-col justify-between'>
-            <li className=''><Link to='/' className={linkStyle}>Home</Link></li>
-            <li><Link to='' className={linkStyle}>Movies</Link></li>
-            <li><Link to='' className={linkStyle}>TV series</Link></li>
-            <li><Link to='' className={linkStyle}>Upcoming</Link></li>
-        </ul>
-        <div>
-            <p></p>
-        </div>
-        <p className='px-[20px]'>Log out</p>
-      </nav>
+      <SideNav />
       <section className='flex flex-col px-4 lg:ml-[263px] lg:mr-6 mt-[38px] w-full h-full lg:w-5/6'>
         {/* <video src={`https://www.youtube.com/watch?v=${trailerKey}`} className="w-full h-[449px] xl:h-full bg-no-repeat bg-contain bg-center rounded-[30px]" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w780/${movieDetails?.data.backdrop_path})`}}/> */}
         {/* <video src={`https://www.youtube.com/watch?v=${trailerKey}`} width={400} controls></video> */}
