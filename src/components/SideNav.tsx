@@ -10,7 +10,7 @@ const SideNav = () => {
         </div>
         <ul className='h-[300px] w-full flex flex-col justify-between'>
             <li className=''><Link to='/' className={linkStyle}>Home</Link></li>
-            <li><Link to='' className={linkStyle}>Movies</Link></li>
+            <li><Link to='/movies' className={linkStyle}>Movies</Link></li>
             <li><Link to='' className={linkStyle}>TV series</Link></li>
             <li><Link to='' className={linkStyle}>Upcoming</Link></li>
         </ul>
