@@ -30,7 +30,7 @@ const Upcoming = () => {
             setGenreData(genre)
         }
         getMovies()
-    }, [])
+    }, [page])
   return (
     <main className="">
         <section className="flex">
