@@ -2,10 +2,10 @@ import Logo from '../../assets/logo.png'
 // import Menu from '../../assets/Icons/Menu.svg'
 import FilmCard from '../../components/FilmCard'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { ReactComponent as Menu } from '../../assets/Icons/Menu alt 4-1.svg'
 import { ReactComponent as Chevron} from '../../assets/Icons/Chevron right-1.svg'
-import { Link } from 'react-router-dom'
 
 export interface MoviesData {
   data:{
@@ -98,7 +98,7 @@ const Home = () => {
             genreData && moviesData?.data.results.slice(0,12).map(movie => <FilmCard movie={movie} genre={genreData}/>)
           }
         </section>
-      </section>
+      </section> 
     </main>
   )
 }
