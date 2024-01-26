@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 
 export interface MoviesData {
   data:{
+    page: number
     results: {
       adult: boolean
       backdrop_path: string
@@ -25,6 +26,8 @@ export interface MoviesData {
       vote_average: number
       vote_count: number
     }[]
+    total_pages: number
+    total_results: number
   }
 }
 
