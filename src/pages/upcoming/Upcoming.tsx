@@ -37,7 +37,7 @@ const Upcoming = () => {
             <SideNav />
             <section className='w-full flex justify-center lg:justify-between items-center gap-[80px] px-6 flex-wrap pb-6 lg:ml-[17%] lg:mr-6 mt-[38px] h-full'>
                 {
-                    genreData && moviesData?.data.results.map(movie => <FilmCard movie={movie} genre={genreData}/>)
+                    genreData && moviesData?.data.results.map(movie => <FilmCard key={movie.id} movie={movie} genre={genreData}/>)
                 }
             </section>
         </section>

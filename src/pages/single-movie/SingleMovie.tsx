@@ -152,7 +152,12 @@ const SingleMovie = () => {
               <span data-testid = 'movie-title' className='text-[#404040] font-medium text-[23px]'>{movieDetails?.data.original_title} • {date.getFullYear()} • {Pg} • {`${hours}h ${minutes}m`}</span>
               {
                 movieDetails?.data.genres.map((genre) => (
-                  <p className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'>{genre.name}</p>
+                  <p 
+                    className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'
+                    key={genre.id}
+                  >
+                    {genre.name}
+                  </p>
                 ))
               }
               {/* <p className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'>Drama</p> */}
