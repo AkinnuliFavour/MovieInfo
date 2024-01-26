@@ -20,7 +20,7 @@ const Pagination = ({page, setPage, totalMovies}: {page: number, setPage:  React
         <div className="flex flex-col items-center mb-6">
             {/* Help text */}
             <span className="text-sm text-gray-700 dark:text-gray-400">
-                Showing <span className="font-semibold text-[#B91C1C]">{currentEntries}</span> to <span className="font-semibold text-[#B91C1C]">{currentEntries + 20}</span> of <span className="font-semibold text-[#B91C1C]">{totalMovies}</span> Entries
+                Showing <span className="font-semibold text-[#B91C1C]">{currentEntries + 1}</span> to <span className="font-semibold text-[#B91C1C]">{currentEntries + 20}</span> of <span className="font-semibold text-[#B91C1C]">{totalMovies}</span> Entries
             </span>
             <div className="inline-flex mt-2 xs:mt-0">
                 {/* Buttons  */}
