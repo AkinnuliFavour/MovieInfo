@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { ReactComponent as Arrow } from '../assets/Icons/Arrow narrow down.svg'
 
 const Pagination = ({page, setPage, totalMovies}: {page: number, setPage:  React.Dispatch<React.SetStateAction<number>>, totalMovies: number}) => {
     const [currentEntries, setCurrentEntries] = useState<number>(0)
@@ -7,6 +8,7 @@ const Pagination = ({page, setPage, totalMovies}: {page: number, setPage:  React
         if(currentEntries === totalMovies) return
         setPage(prev => prev + 1)
         setCurrentEntries(prev => prev + 20)
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
     }
     
     const handelPrevious = () => {
@@ -15,9 +17,15 @@ const Pagination = ({page, setPage, totalMovies}: {page: number, setPage:  React
         setCurrentEntries(prev => prev - 19)
     }
 
+    const divRef = useRef<HTMLDivElement>(null!);
+
+    const scrollToBottom = () =>{
+        divRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
   return (
     <div>
-        <div className="w-full flex flex-col items-center justify-center mb-6 mt-6">
+        <div className="w-full flex flex-col items-center justify-center mb-6 mt-6" ref={divRef}>
             {/* Help text */}
             <span className="text-sm text-gray-700 dark:text-gray-400">
                 Showing <span className="font-semibold text-[#B91C1C]">{currentEntries + 1}</span> to <span className="font-semibold text-[#B91C1C]">{currentEntries + 20}</span> of <span className="font-semibold text-[#B91C1C]">{totalMovies}</span> Entries
@@ -44,6 +52,7 @@ const Pagination = ({page, setPage, totalMovies}: {page: number, setPage:  React
                 </button>
             </div>
         </div>
+        <Arrow className='bg-[#BE123C] rounded-full p-2 w-[36px] h-[36px] fixed bottom-0 right-0 mx-2 mb-2' onClick={scrollToBottom}/>
     </div>
   )
 }
