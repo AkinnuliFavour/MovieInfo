@@ -144,24 +144,26 @@ const SingleMovie = () => {
 
   return (
     <main className="flex flex-col lg:flex-row h-screen max-w-screen">
-      <Nav />
+      <Nav hidden={true}/>
       <SideNav />
       <section className='flex flex-col px-4 lg:ml-[263px] lg:mr-6 mt-[38px] w-full h-full lg:w-5/6'>
         {/* <video src={`https://www.youtube.com/watch?v=${trailerKey}`} className="w-full h-[449px] xl:h-full bg-no-repeat bg-contain bg-center rounded-[30px]" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w780/${movieDetails?.data.backdrop_path})`}}/> */}
         {/* <video src={`https://www.youtube.com/watch?v=${trailerKey}`} width={400} controls></video> */}
-        <iframe width="420" height="315" src={`https://www.youtube.com/embed/${trailerKey}`} className="w-full h-[449px] bg-no-repeat bg-contain bg-center rounded-[30px]"></iframe>
-          <div className='flex gap-4 px-[18px] mt-[31px]'>
+        <iframe width="420" height="449" src={`https://www.youtube.com/embed/${trailerKey}`} className="w-full min-h-[449px] bg-no-repeat bg-contain bg-center rounded-[30px]"></iframe>
+          <div className='flex flex-col lg:flex-row gap-4 px-[18px] mt-[31px]'>
               <span data-testid = 'movie-title' className='text-[#404040] font-medium text-[23px]'>{movieDetails?.data.original_title} • {date.getFullYear()} • {Pg} • {`${hours}h ${minutes}m`}</span>
-              {
-                movieDetails?.data.genres.map((genre) => (
-                  <p 
-                    className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'
-                    key={genre.id}
-                  >
-                    {genre.name}
-                  </p>
-                ))
-              }
+              <div className='flex justify-evenly items-center'>
+                {
+                  movieDetails?.data.genres.map((genre) => (
+                    <p 
+                      className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'
+                      key={genre.id}
+                    >
+                      {genre.name}
+                    </p>
+                  ))
+                }
+              </div>
               {/* <p className='text-center text-[15px] text-[#B91C1C] font-medium place-self-center rounded-[15px] px-2 py border border-[#F8E7EB]'>Drama</p> */}
           </div>
         <p className='mt-4 px-[18px] font-normal' data-testid = 'movie-overview'>{movieDetails?.data.overview}</p>

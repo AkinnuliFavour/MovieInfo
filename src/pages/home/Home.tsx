@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { ReactComponent as Chevron} from '../../assets/Icons/Chevron right-1.svg'
-import Logo from '../../assets/logo.png'
-import { ReactComponent as Menu } from '../../assets/Icons/Menu alt 4-1.svg'
+import Nav from '../../components/Nav'
 
 export interface MoviesData {
   data:{
@@ -70,15 +69,7 @@ const Home = () => {
   return (
     <main className="max-w-screen h-screen text-white">
       <section className={`w-full h-[600px] lg:h-full bg-zinc-800 bg-no-repeat bg-cover bg-center flex flex-col justify-between pb-8`} style={{backgroundImage: `url(${imageUrl})`}}>
-        <nav className='px-8 lg:px-[95px] pt-[15px] flex flex-col md:flex-row justify-between'>
-          <img src={Logo} alt="" className=''/>
-          <input type="search" name="" id="" className='md:w-1/3 w-full h-[36px] mt-[7px] px-2 hidden md:block bg-transparent border border-white outline-none rounded-lg'/>
-          <div className='md:flex justify-center items-center gap-4 mt-[7px] w-28 hidden'>
-            <p className=''>Sign In </p>
-            {/* <img src={Menu} alt=""/> */}
-            <Menu className='bg-[#BE123C] rounded-full p-2 w-[36px] h-[36px]'/>
-          </div>
-        </nav>
+        <Nav hidden={false}/>
         <section className='px-8 lg:px-[98px] mt-2 md:mt-4 lg:mt-16'>
           <p className='text-[48px] font-bold'>{moviesData && moviesData.data.results[1].original_title}</p>
           <p className='text-ellipsis text-[14px] md:w-5/12 font-bold text-base'>{moviesData && moviesData.data.results[1].overview}</p>
