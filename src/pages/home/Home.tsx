@@ -1,11 +1,11 @@
-import Logo from '../../assets/logo.png'
 // import Menu from '../../assets/Icons/Menu.svg'
 import FilmCard from '../../components/FilmCard'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { ReactComponent as Menu } from '../../assets/Icons/Menu alt 4-1.svg'
 import { ReactComponent as Chevron} from '../../assets/Icons/Chevron right-1.svg'
+import Logo from '../../assets/logo.png'
+import { ReactComponent as Menu } from '../../assets/Icons/Menu alt 4-1.svg'
 
 export interface MoviesData {
   data:{
@@ -83,7 +83,7 @@ const Home = () => {
           <p className='text-[48px] font-bold'>{moviesData && moviesData.data.results[1].original_title}</p>
           <p className='text-ellipsis text-[14px] md:w-5/12 font-bold text-base'>{moviesData && moviesData.data.results[1].overview}</p>
           <button className='bg-[#BE123C] w-40 p-2 mt-4 rounded-lg'>Watch Trailer</button>
-        </section>
+        N</section>
       </section>
       <section className='mt-8 px-8 lg:px-[95px] w-full'>
         <div className='flex justify-between items-center'>
