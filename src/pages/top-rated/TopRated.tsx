@@ -4,6 +4,7 @@ import { MoviesData, GenreData } from "../home/Home"
 import FilmCard from '../../components/FilmCard'
 import SideNav from "../../components/SideNav"
 import Pagination from "../../components/Pagination"
+import Nav from "../../components/Nav"
 
 const TopRated = () => {
     const [moviesData, setMoviesData] = useState<MoviesData>()
@@ -34,6 +35,7 @@ const TopRated = () => {
 
   return (
     <main className="">
+        <Nav />
         <section className="flex">
         <SideNav />
             <section className='w-full flex justify-center lg:justify-between items-center gap-[80px] px-6 flex-wrap pb-6 lg:ml-[17%] lg:mr-6 mt-[38px] h-full'>

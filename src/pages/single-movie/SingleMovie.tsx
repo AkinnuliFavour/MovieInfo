@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import SideNav from '../../components/SideNav'
+import Nav from '../../components/Nav'
 
 interface MovieDetails {
   data: {
@@ -142,7 +143,8 @@ const SingleMovie = () => {
   console.log(director)
 
   return (
-    <main className="flex h-screen max-w-screen">
+    <main className="flex flex-col lg:flex-row h-screen max-w-screen">
+      <Nav />
       <SideNav />
       <section className='flex flex-col px-4 lg:ml-[263px] lg:mr-6 mt-[38px] w-full h-full lg:w-5/6'>
         {/* <video src={`https://www.youtube.com/watch?v=${trailerKey}`} className="w-full h-[449px] xl:h-full bg-no-repeat bg-contain bg-center rounded-[30px]" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w780/${movieDetails?.data.backdrop_path})`}}/> */}

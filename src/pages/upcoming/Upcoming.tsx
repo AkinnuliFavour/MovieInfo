@@ -4,6 +4,7 @@ import SideNav from "../../components/SideNav"
 import FilmCard from '../../components/FilmCard'
 import { MoviesData, GenreData } from "../home/Home"
 import Pagination from '../../components/Pagination'
+import Nav from "../../components/Nav"
 
 const Upcoming = () => {
     const [moviesData, setMoviesData] = useState<MoviesData>()
@@ -33,6 +34,7 @@ const Upcoming = () => {
     }, [page])
   return (
     <main className="">
+        <Nav />
         <section className="flex">
             <SideNav />
             <section className='w-full flex justify-center lg:justify-between items-center gap-[80px] px-6 flex-wrap pb-6 lg:ml-[17%] lg:mr-6 mt-[38px] h-full'>
