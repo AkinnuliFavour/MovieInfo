@@ -21,7 +21,7 @@ const Nav = ({hidden}: {hidden: boolean}) => {
 
         <div className="relative md:w-1/3 w-full mt-[7px] hidden lg:block">
           <input
-            type="search"
+            type="text"
             name="" 
             id="" 
             value={title}

@@ -18,9 +18,9 @@ const Accordion = ({toggleAccordion}: {toggleAccordion: () => void}) => {
             X
         </p>
         <ul className="h-full flex justify-center items-center flex-col gap-12">
-            <li className="relative md:w-1/3 w-full mt-[7px] lg:hidden">
+            <li className="relative md:w-1/3 w-full mt-[7px] lg:hidden px-3">
                 <input
-                    type="search"
+                    type="text"
                     name="" 
                     id="" 
                     value={title}
