@@ -1,7 +1,7 @@
 // import Menu from '../../assets/Icons/Menu.svg'
 import FilmCard from '../../components/FilmCard'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { ReactComponent as Chevron} from '../../assets/Icons/Chevron right-1.svg'
 import Nav from '../../components/Nav'
@@ -40,6 +40,9 @@ export interface GenreData {
 }
 
 const Home = () => {
+
+  const navigate = useNavigate()
+
   const [moviesData, setMoviesData] = useState<MoviesData>()
   const [genreData, setGenreData] = useState<GenreData>()
   useEffect(() => {
@@ -73,7 +76,12 @@ const Home = () => {
         <section className='px-8 lg:px-[98px] mt-2 md:mt-4 lg:mt-16'>
           <p className='text-[48px] font-bold'>{moviesData && moviesData.data.results[1].original_title}</p>
           <p className='text-ellipsis text-[11px] lg:text-[14px] md:w-5/12 font-bold text-base'>{moviesData && moviesData.data.results[1].overview}</p>
-          <button className='bg-[#BE123C] w-40 p-2 mt-4 rounded-lg'>Watch Trailer</button>
+          <button
+            className='bg-[#BE123C] w-40 p-2 mt-12 rounded-lg'
+            onClick={() => navigate(`/movie-details/${moviesData?.data.results[1].id}`)}
+          >
+            Watch Trailer
+          </button>
         </section>
       </section>
       <section className='mt-8 px-8 lg:px-[95px] w-full'>
