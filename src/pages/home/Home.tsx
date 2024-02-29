@@ -71,18 +71,20 @@ const Home = () => {
   
   return (
     <main className="max-w-screen h-screen text-white">
-      <section className={`w-full h-[600px] lg:h-full bg-zinc-800 bg-no-repeat bg-cover bg-center flex flex-col justify-between pb-8`} style={{backgroundImage: `url(${imageUrl})`}}>
-        <Nav hidden={false}/>
-        <section className='px-8 lg:px-[98px] mt-2 md:mt-4 lg:mt-16'>
-          <p className='text-[48px] font-bold'>{moviesData && moviesData.data.results[1].original_title}</p>
-          <p className='text-ellipsis text-[11px] lg:text-[14px] md:w-5/12 font-bold text-base'>{moviesData && moviesData.data.results[1].overview}</p>
-          <button
-            className='bg-[#BE123C] w-40 p-2 mt-12 rounded-lg'
-            onClick={() => navigate(`/movie-details/${moviesData?.data.results[1].id}`)}
-          >
-            Watch Trailer
-          </button>
-        </section>
+      <section className={`w-full h-[600px] lg:h-full bg-zinc-800 bg-no-repeat bg-cover bg-center`} style={{backgroundImage: `url(${imageUrl})`}}>
+        <div className='h-full w-full flex flex-col justify-between pb-8 bg-black opacity-80'>
+          <Nav hidden={false}/>
+          <section className='px-8 lg:px-[98px] mt-2 md:mt-4 lg:mt-16'>
+            <p className='text-[48px] font-bold'>{moviesData && moviesData.data.results[1].original_title}</p>
+            <p className='text-ellipsis text-[11px] lg:text-[14px] md:w-5/12 font-bold text-base'>{moviesData && moviesData.data.results[1].overview}</p>
+            <button
+              className='bg-[#BE123C] w-40 p-2 mt-12 rounded-lg'
+              onClick={() => navigate(`/movie-details/${moviesData?.data.results[1].id}`)}
+            >
+              Watch Trailer
+            </button>
+          </section>
+        </div>
       </section>
       <section className='mt-8 px-8 lg:px-[95px] w-full'>
         <div className='flex justify-between items-center'>
