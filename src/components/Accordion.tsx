@@ -11,12 +11,12 @@ const Accordion = ({toggleAccordion}: {toggleAccordion: () => void}) => {
 
   return (
     <nav className="w-screen h-screen fixed bg-[#BE123C] top-0 left-0 z-50 text-white">
-        <p 
+        <button 
             className="absolute top-0 right-0 text-3xl mr-4 p-4 font-bold"
             onClick={toggleAccordion}
         >
             X
-        </p>
+        </button>
         <ul className="h-full flex justify-center items-center flex-col gap-12">
             <li className="relative w-5/6 mt-[7px] lg:hidden">
                 <input
