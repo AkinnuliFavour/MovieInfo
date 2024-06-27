@@ -42,7 +42,7 @@ const Signup = () => {
       <img
         src="src/assets/logo-dark-text.png"
         alt=""
-        className="relative mt-7 md:mt-7 mb-7 md:mb-0 md:absolute md:top-6 md:left-6"
+        className="relative mt-7 md:mt-0 mb-7 md:mb-0 md:absolute md:top-6 md:left-6"
       />
       <form
         action=""
@@ -93,14 +93,6 @@ const Signup = () => {
             }}
           />
         </div>
-        <div className="flex flex-row-reverse">
-          <Link
-            to="/reset"
-            className="font-bold underline decoration-2 decoration-rose-600"
-          >
-            Forgot password?
-          </Link>
-        </div>
         <input
           type="submit"
           value="Sign Up"
@@ -113,7 +105,7 @@ const Signup = () => {
             to="/login"
             className="font-bold underline decoration-2 decoration-rose-600"
           >
-            Create
+            Login
           </Link>
         </span>
       </form>
