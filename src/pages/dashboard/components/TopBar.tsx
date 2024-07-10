@@ -4,7 +4,7 @@ import Logo from "../../../assets/logo-dark-text.png";
 
 const TopBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
   return (
-    <section className="bg-white sticky top-0 flex justify-between items-center h-20 px-3 z-20">
+    <section className="bg-white/90 backdrop-blur-xl sticky top-0 flex justify-between items-center h-20 px-3 z-20">
       <img src={Logo} alt="" className="hidden lg:block" />
       <Menu
         className="w-[36px] h-[36px] text-black lg:hidden"
@@ -13,7 +13,7 @@ const TopBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
       <div className="relative hidden lg:block">
         <input
           type="text"
-          placeholder="Search"
+          placeholder="Search for Movies"
           name=""
           id=""
           className="lg:w-96 px-2 py-2 pl-10 rounded-full outline-none bg-[#F5F6FA]"
