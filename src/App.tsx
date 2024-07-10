@@ -13,6 +13,12 @@ import Upcoming from "./pages/upcoming/Upcoming";
 import Search from "./pages/search/Search";
 import Signup from "./pages/auth/SignUp";
 import Login from "./pages/auth/Login";
+import Dashboard from "./pages/dashboard/Dashboard";
+import DashboardLayout from "./pages/dashboard/layouts/DashboardLayout";
+import Forums from "./pages/dashboard/Forums";
+import News from "./pages/dashboard/News/News";
+import Settings from "./pages/dashboard/Settings";
+import Watchlist from "./pages/dashboard/Watchlist";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +35,14 @@ function App() {
           <Route path="/movie-details/:id" element={<SingleMovie />} />
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="forums" element={<Forums />} />
+            <Route path="news" element={<News />} />
+            <Route path="single-news/:url" element={<News />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="watchlist" element={<Watchlist />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
