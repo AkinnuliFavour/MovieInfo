@@ -35,12 +35,12 @@ function App() {
           <Route path="/movie-details/:id" element={<SingleMovie />} />
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="forums" element={<Forums />} />
             <Route path="news" element={<News />} />
             <Route path="single-news/:url" element={<News />} />
-            <Route path="settings" element={<Settings />} />
             <Route path="watchlist" element={<Watchlist />} />
           </Route>
         </Routes>
