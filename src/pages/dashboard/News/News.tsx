@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchArticle } from "../../../api/api";
 import NewsCard from "../components/NewsCard";
 import SingleNewsPage from "./SingleNewsPage";
 
@@ -29,10 +30,7 @@ const News = () => {
 
   useEffect(() => {
     const fetchNews = async () => {
-      const response = await axios.get(
-        "https://newsapi.org/v2/everything?q=Movie&from=2024-07-01&sortBy=popularity&apiKey=75e98f479be948cebad68ba962e010fe"
-      );
-      console.log(response.data);
+      const response = await fetchArticle("https://newsapi.org/v2/everything?q=Movie&from=2024-07-01&sortBy=popularity&apiKey=75e98f479be948cebad68ba962e010fe");
       setNewsData(response.data);
     };
     fetchNews();
