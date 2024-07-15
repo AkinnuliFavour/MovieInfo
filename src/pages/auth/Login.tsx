@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -10,6 +11,8 @@ interface FormData {
 }
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,6 +23,7 @@ const Login = () => {
     onSuccess: (data) => {
       console.log("User Created successfully:", data);
       // You can add additional logic here, like updating the UI or invalidating queries
+      navigate("/dashboard");
     },
     onError: (error) => {
       console.error("Error creating user:", error);
