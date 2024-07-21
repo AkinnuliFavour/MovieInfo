@@ -37,7 +37,6 @@ function App() {
           <Route path="/login" element={<Login />} />
           {/* <Route path="/settings" element={<Settings />} /> */}
 
-
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="forums" element={<Forums />} />

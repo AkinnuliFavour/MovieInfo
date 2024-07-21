@@ -4,7 +4,7 @@ import { formatDate, breakIntoParagraphs } from "../../../lib/utils";
 import { getFullArticle } from "../../../lib/getArticle";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import api from "../../../api/api";
+import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 const SingleNewsPage = ({
@@ -14,8 +14,25 @@ const SingleNewsPage = ({
   news: News;
   showNewsDetails: boolean;
 }) => {
+
+  const url = "http://localhost:3500/articles";
+
+  const params = {
+    url: news.url,
+  };
+
+  const config = {
+    withCredentials: true,
+    credentials: 'include'
+  };
+
   const fetchArticle = async (): Promise<string> => {
-    const response = await api.get(`/article/${news.url}`);
+    const response = await axios.get(url, {
+      params: {
+        url: news.url
+      },
+      ...config,
+    });
     return response.data;
   };
 

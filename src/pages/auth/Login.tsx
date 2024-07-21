@@ -16,12 +16,17 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const config ={
+    withCredentials: true,
+    credentials: 'include'
+  }
+
   const mutation = useMutation({
     mutationFn: (newData: FormData) => {
-      return axios.post("http://localhost:3500/users", newData);
+      return axios.post("http://localhost:3500/auth", newData, config);
     },
     onSuccess: (data) => {
-      console.log("User Created successfully:", data);
+      console.log("User logged in successfully:", data);
       // You can add additional logic here, like updating the UI or invalidating queries
       navigate("/dashboard");
     },
