@@ -213,13 +213,13 @@ const SingleMovie = () => {
             </span>
           </p>
           <div
-            className="mt-4 pb-4 px-[18px] flex items-center text-[#BE123C] hover:cursor-pointer"
+            className="mt-4 pb-4 px-[18px] flex items-center justify-center text-[#BE123C] hover:cursor-pointer"
             onClick={() => setClicked(!clicked)}
           >
             {clicked ? (
-              <Bookmark1 className="text-[#BE123C] mr-2" />
+              <Bookmark1 className="text-[#BE123C] mr-1 w-5" />
             ) : (
-              <Bookmark className="text-[#BE123C] mr-2" />
+              <Bookmark className="text-[#BE123C] mr-1 w-5" />
             )}
             <p>{clicked ? "Added" : "Add"} to watchlist</p>
           </div>
