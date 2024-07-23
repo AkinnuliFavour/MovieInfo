@@ -162,6 +162,28 @@ const SingleMovie = () => {
   );
   console.log(director);
 
+  const config = {
+    withCredentials: true,
+    credentials: 'include'
+  };
+
+  const addWatchlist = () => {
+    console.log(id);
+    if(!clicked){
+      const response = axios.post("http://localhost:3500/watchlist", {
+        movieId: id,
+      }, config);
+      setClicked(true);
+    }
+  };
+
+  // const deleteWatchlist = () => {
+  //   const response = axios.delete("http://localhost:3500/watchlist", {
+  //     id: movieDetails.id,
+  //   });
+  //   setClicked(!clicked);
+  // };
+
   return (
     <main className="flex flex-col lg:flex-row h-screen max-w-screen">
       <Nav hidden={true} />
@@ -214,7 +236,7 @@ const SingleMovie = () => {
           </p>
           <div
             className="mt-4 pb-4 px-[18px] flex items-center justify-center text-[#BE123C] hover:cursor-pointer"
-            onClick={() => setClicked(!clicked)}
+            onClick={clicked ? () => {} : addWatchlist}
           >
             {clicked ? (
               <Bookmark1 className="text-[#BE123C] mr-1 w-5" />
