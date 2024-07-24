@@ -85,7 +85,6 @@ const SingleMovie = () => {
   const [movieDetails, setMovieDetails] = useState<MovieDetails>();
   const [movieVideos, setMovieVideos] = useState<MovieVideos>();
   const [movieCredits, setMovieCredits] = useState<MovieCredits>();
-  console.log(id);
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -167,8 +166,11 @@ const SingleMovie = () => {
     credentials: 'include'
   };
 
+  const params = {
+    movieId: id
+  }
+
   const addWatchlist = () => {
-    console.log(id);
     if(!clicked){
       const response = axios.post("http://localhost:3500/watchlist", {
         movieId: id,
@@ -177,12 +179,17 @@ const SingleMovie = () => {
     }
   };
 
-  // const deleteWatchlist = () => {
-  //   const response = axios.delete("http://localhost:3500/watchlist", {
-  //     id: movieDetails.id,
-  //   });
-  //   setClicked(!clicked);
-  // };
+   const deleteWatchlist = () => {
+     console.log(id);
+     if(clicked){
+      const response = axios.delete("http://localhost:3500/watchlist", {
+        params,
+        ...config,
+      });
+      return response.data;
+     setClicked(false);
+     }
+   };
 
   return (
     <main className="flex flex-col lg:flex-row h-screen max-w-screen">
@@ -236,7 +243,7 @@ const SingleMovie = () => {
           </p>
           <div
             className="mt-4 pb-4 px-[18px] flex items-center justify-center text-[#BE123C] hover:cursor-pointer"
-            onClick={clicked ? () => {} : addWatchlist}
+            onClick={clicked ? deleteWatchlist : addWatchlist}
           >
             {clicked ? (
               <Bookmark1 className="text-[#BE123C] mr-1 w-5" />
