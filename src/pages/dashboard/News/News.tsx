@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Newspaper, ArrowLeft } from "lucide-react";
+import Button from "../../../components/ui/Button";
 
 import NewsCard from "../components/NewsCard";
 import SingleNewsPage from "./SingleNewsPage";
@@ -61,26 +63,50 @@ const News = () => {
   // const firstPage = newsData?.articles.slice(0, 16);
 
   return (
-    <main>
-      {showNewsDetails && (
-        <button className="relative top-2 bg-red-400" onClick={handleBackClick}>
-          Back
-        </button>
+    <>
+      {!showNewsDetails && (
+        <div className="mb-8 flex items-center gap-4 animate-fade-in-up">
+          <div className="p-3 rounded-xl bg-primary/10 text-primary shadow-glow">
+            <Newspaper className="h-8 w-8" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-white">Movie News</h1>
+            <p className="text-gray-400 mt-1">
+              Stay updated with the latest in cinema
+            </p>
+          </div>
+        </div>
       )}
+
       {showNewsDetails && clickedNews ? (
-        <SingleNewsPage news={clickedNews} showNewsDetails={showNewsDetails} />
+        <div className="animate-fade-in-up">
+          <Button
+            variant="ghost"
+            onClick={handleBackClick}
+            icon={<ArrowLeft className="h-4 w-4" />}
+            className="mb-6 text-white hover:bg-white/10"
+          >
+            Back to News
+          </Button>
+          <SingleNewsPage
+            news={clickedNews}
+            showNewsDetails={showNewsDetails}
+          />
+        </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {firstPage?.map((news, index) => (
-            <NewsCard
+            <div
               key={index}
-              news={news}
-              handleNewsClick={handleNewsClick}
-            />
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
+              <NewsCard news={news} handleNewsClick={handleNewsClick} />
+            </div>
           ))}
         </div>
       )}
-    </main>
+    </>
   );
 };
 
