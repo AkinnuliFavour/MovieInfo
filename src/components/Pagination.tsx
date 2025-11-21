@@ -1,60 +1,77 @@
-import { useState, useRef } from 'react'
-import { ReactComponent as Arrow } from '../assets/Icons/Arrow narrow down.svg'
+import { useRef } from 'react';
+import { ChevronLeft, ChevronRight, ArrowUp } from 'lucide-react';
+import Button from './ui/Button';
 
-const Pagination = ({page, setPage, totalMovies}: {page: number, setPage:  React.Dispatch<React.SetStateAction<number>>, totalMovies: number}) => {
-    const [currentEntries, setCurrentEntries] = useState<number>(0)
-
-    const handelNext = () => {
-        if(currentEntries === totalMovies) return
-        setPage(prev => prev + 1)
-        setCurrentEntries(prev => prev + 20)
-        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
-    }
-    
-    const handelPrevious = () => {
-        if(page === 1) return
-        setPage(prev => prev - 1)
-        setCurrentEntries(prev => prev - 19)
-    }
-
-    const divRef = useRef<HTMLDivElement>(null!);
-
-    const scrollToBottom = () =>{
-        divRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-
-  return (
-    <div>
-        <div className="w-full flex flex-col items-center justify-center mb-6 mt-6" ref={divRef}>
-            {/* Help text */}
-            <span className="text-sm text-gray-700 dark:text-gray-400">
-                Showing <span className="font-semibold text-[#B91C1C]">{currentEntries + 1}</span> to <span className="font-semibold text-[#B91C1C]">{currentEntries + 20}</span> of <span className="font-semibold text-[#B91C1C]">{totalMovies}</span> Entries
-            </span>
-            <div className="inline-flex mt-2 xs:mt-0">
-                {/* Buttons  */}
-                <button 
-                    className="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    onClick={handelPrevious}
-                >
-                    <svg className="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
-                    </svg>
-                    Prev
-                </button>
-                <button 
-                    className="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    onClick={handelNext}
-                >
-                    Next
-                    <svg className="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <Arrow className='bg-[#BE123C] rounded-full p-2 w-[36px] h-[36px] fixed bottom-0 right-0 mx-2 mb-2' onClick={scrollToBottom}/>
-    </div>
-  )
+interface PaginationProps {
+    page: number;
+    setPage: React.Dispatch<React.SetStateAction<number>>;
+    totalMovies: number;
 }
 
-export default Pagination
+const Pagination = ({ page, setPage, totalMovies }: PaginationProps) => {
+    const divRef = useRef<HTMLDivElement>(null!);
+
+    const handleNext = () => {
+        setPage(prev => prev + 1);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    
+    const handlePrevious = () => {
+        if (page === 1) return;
+        setPage(prev => prev - 1);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const scrollToBottom = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const startEntry = (page - 1) * 20 + 1;
+    const endEntry = Math.min(page * 20, totalMovies);
+
+    return (
+        <div className="relative pb-12" ref={divRef}>
+            <div className="flex flex-col items-center justify-center gap-4">
+                <span className="text-sm text-gray-400">
+                    Showing <span className="font-bold text-primary">{startEntry}</span> to <span className="font-bold text-primary">{endEntry}</span> of <span className="font-bold text-white">{totalMovies}</span> Entries
+                </span>
+                
+                <div className="flex items-center gap-4">
+                    <Button
+                        variant="glass"
+                        onClick={handlePrevious}
+                        disabled={page === 1}
+                        className="flex items-center gap-2"
+                    >
+                        <ChevronLeft className="h-4 w-4" />
+                        Prev
+                    </Button>
+                    
+                    <div className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white font-medium">
+                        Page {page}
+                    </div>
+
+                    <Button
+                        variant="glass"
+                        onClick={handleNext}
+                        disabled={endEntry >= totalMovies}
+                        className="flex items-center gap-2"
+                    >
+                        Next
+                        <ChevronRight className="h-4 w-4" />
+                    </Button>
+                </div>
+            </div>
+
+            <button
+                onClick={scrollToBottom}
+                className="fixed bottom-8 right-8 p-3 rounded-full bg-primary text-white shadow-glow hover:bg-primary/80 transition-all z-50 animate-fade-in-up"
+                title="Scroll to Top"
+            >
+                <ArrowUp className="h-6 w-6" />
+            </button>
+        </div>
+    );
+};
+
+export default Pagination;

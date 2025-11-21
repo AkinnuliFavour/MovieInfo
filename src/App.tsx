@@ -7,7 +7,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   QueryClient,
   QueryClientProvider,
-  useQuery,
 } from "@tanstack/react-query";
 import Upcoming from "./pages/upcoming/Upcoming";
 import Search from "./pages/search/Search";
@@ -19,6 +18,10 @@ import Forums from "./pages/dashboard/Forums";
 import News from "./pages/dashboard/News/News";
 // import Settings from "./pages/settings/Settings";
 import Watchlist from "./pages/dashboard/Watchlist";
+import Recommendations from "./pages/recommendations/Recommendations";
+import ActorProfile from "./pages/actor/ActorProfile";
+import ReleaseCalendar from "./pages/calendar/ReleaseCalendar";
+import Explore from "./pages/explore/Explore";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +36,7 @@ function App() {
           <Route path="/upcoming" element={<Upcoming />} />
           <Route path="/search/:title" element={<Search />} />
           <Route path="/movie-details/:id" element={<SingleMovie />} />
+          <Route path="/actor/:id" element={<ActorProfile />} />
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           {/* <Route path="/settings" element={<Settings />} /> */}
@@ -43,6 +47,9 @@ function App() {
             <Route path="news" element={<News />} />
             <Route path="single-news/:url" element={<News />} />
             <Route path="watchlist" element={<Watchlist />} />
+            <Route path="recommendations" element={<Recommendations />} />
+            <Route path="calendar" element={<ReleaseCalendar />} />
+            <Route path="explore" element={<Explore />} />
           </Route>
         </Routes>
       </BrowserRouter>
