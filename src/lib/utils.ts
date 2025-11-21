@@ -43,3 +43,7 @@ const longText =
   "This is sentence one. This is sentence two. Sentence three here. Fourth sentence. Fifth sentence. Sixth sentence. Seventh sentence. Eighth sentence. Ninth sentence. Tenth sentence.";
 const result = breakIntoParagraphs(longText);
 console.log(result);
+
+export function cn(...classes: (string | undefined | null | false)[]) {
+  return classes.filter(Boolean).join(' ');
+}

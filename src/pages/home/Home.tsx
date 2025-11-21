@@ -1,105 +1,152 @@
-// import Menu from '../../assets/Icons/Menu.svg'
-import FilmCard from '../../components/FilmCard'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { ReactComponent as Chevron} from '../../assets/Icons/Chevron right-1.svg'
+import { ChevronRight, Play, Info } from 'lucide-react'
 import Nav from '../../components/Nav'
+import MovieCard from '../../components/ui/MovieCard'
+import Button from '../../components/ui/Button'
 
-export interface MoviesData {
-  data:{
-    page: number
-    results: {
-      adult: boolean
-      backdrop_path: string
-      genre_ids: number[]
-      id: number
-      original_language: string
-      original_title: string
-      overview: string
-      popularity: number
-      poster_path: string
-      release_date: string
-      title: string
-      video: boolean
-      vote_average: number
-      vote_count: number
-    }[]
-    total_pages: number
-    total_results: number
-  }
-}
-
-export interface GenreData {
-  data:{
-    genres:{
-      id: number
-      name: string
-    }[]
-  }
-}
+import { MoviesData, GenreData } from '../../types/movie'
 
 const Home = () => {
-
   const navigate = useNavigate()
-
   const [moviesData, setMoviesData] = useState<MoviesData>()
   const [genreData, setGenreData] = useState<GenreData>()
+  const [isLoading, setIsLoading] = useState(true)
+
   useEffect(() => {
-    const getMovies = async() => {
-      const movies: MoviesData = await axios.get('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', {
-        params:{
-          api_key: import.meta.env.VITE_TMDB_API_KEY
-        }
-      })
+    const getMovies = async () => {
+      try {
+        const movies: MoviesData = await axios.get('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', {
+          params: {
+            api_key: import.meta.env.VITE_TMDB_API_KEY
+          }
+        })
 
-      const genre: GenreData= await axios.get('https://api.themoviedb.org/3/genre/movie/list?language=en', {
-        params:{
-          api_key: import.meta.env.VITE_TMDB_API_KEY
-        }
-      })
+        const genre: GenreData = await axios.get('https://api.themoviedb.org/3/genre/movie/list?language=en', {
+          params: {
+            api_key: import.meta.env.VITE_TMDB_API_KEY
+          }
+        })
 
-      console.log(movies)
-      console.log(genre)
-      setMoviesData(movies)
-      setGenreData(genre)
+        setMoviesData(movies)
+        setGenreData(genre)
+      } catch (error) {
+        console.error("Failed to fetch movies:", error)
+      } finally {
+        setIsLoading(false)
+      }
     }
     getMovies()
   }, [])
-  const imageUrl = moviesData ? `https://image.tmdb.org/t/p/original/${moviesData.data.results[1].backdrop_path}` : '1E5baAaEse26fej7uHcjOgEE2t2.jpg'
-  console.log(imageUrl)
-  
+
+  const featuredMovie = moviesData?.data.results[0]
+  const imageUrl = featuredMovie ? `https://image.tmdb.org/t/p/original/${featuredMovie.backdrop_path}` : ''
+
+  const getGenreName = (id: number) => {
+    return genreData?.data.genres.find(g => g.id === id)?.name
+  }
+
   return (
-    <main className="max-w-screen h-screen text-white">
-      <section className={`w-full h-[600px] lg:h-full bg-zinc-800 bg-no-repeat bg-cover bg-center`} style={{backgroundImage: `url(${imageUrl})`}}>
-        <div className='h-full w-full flex flex-col justify-between pb-8 bg-black opacity-80'>
-          <Nav hidden={false}/>
-          <section className='px-8 lg:px-[98px] mt-2 md:mt-4 lg:mt-16'>
-            <p className='text-[48px] font-bold'>{moviesData && moviesData.data.results[1].original_title}</p>
-            <p className='text-ellipsis text-[11px] lg:text-[14px] md:w-5/12 font-bold text-base'>{moviesData && moviesData.data.results[1].overview}</p>
-            <button
-              className='bg-[#BE123C] w-40 p-2 mt-12 rounded-lg'
-              onClick={() => navigate(`/movie-details/${moviesData?.data.results[1].id}`)}
-            >
-              Watch Trailer
-            </button>
-          </section>
+    <main className="min-h-screen bg-background text-white font-sans selection:bg-primary/30">
+      <Nav />
+      
+      {/* Hero Section */}
+      <section className="relative h-[85vh] w-full overflow-hidden">
+        {/* Background Image with Gradient Overlay */}
+        <div className="absolute inset-0">
+          {imageUrl && (
+            <img 
+              src={imageUrl} 
+              alt="Hero Background" 
+              className="h-full w-full object-cover object-center"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+        </div>
+
+        {/* Hero Content */}
+        <div className="container relative mx-auto flex h-full flex-col justify-center px-6 pt-20">
+          <div className="max-w-2xl animate-fade-in-up">
+            {featuredMovie && (
+              <>
+                <h1 className="mb-4 font-display text-5xl font-bold leading-tight tracking-tight md:text-7xl text-glow">
+                  {featuredMovie.title}
+                </h1>
+                
+                <div className="mb-6 flex items-center gap-4 text-sm font-medium text-gray-300">
+                  <span className="rounded-md bg-yellow-500/20 px-2 py-1 text-yellow-500 backdrop-blur-sm">
+                    IMDb {featuredMovie.vote_average.toFixed(1)}
+                  </span>
+                  <span>{featuredMovie.release_date.split('-')[0]}</span>
+                  <span>{getGenreName(featuredMovie.genre_ids[0])}</span>
+                </div>
+
+                <p className="mb-8 text-lg text-gray-300 line-clamp-3 md:text-xl">
+                  {featuredMovie.overview}
+                </p>
+
+                <div className="flex flex-wrap gap-4">
+                  <Button 
+                    variant="primary" 
+                    size="lg" 
+                    className="gap-2 shadow-glow hover:shadow-glow-lg"
+                    onClick={() => navigate(`/movie-details/${featuredMovie.id}`)}
+                  >
+                    <Play className="h-5 w-5 fill-current" />
+                    Watch Trailer
+                  </Button>
+                  <Button 
+                    variant="glass" 
+                    size="lg" 
+                    className="gap-2"
+                    onClick={() => navigate(`/movie-details/${featuredMovie.id}`)}
+                  >
+                    <Info className="h-5 w-5" />
+                    More Info
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </section>
-      <section className='mt-8 px-8 lg:px-[95px] w-full'>
-        <div className='flex justify-between items-center'>
-          <p className='text-black text-[36px] font-semibold'>Featured Movie</p>
-          <Link to='/now-playing' className='flex justify-center items-center text-center gap-1 w-28'>
-            <p className='text-[#BE123C] text-sm'>See More</p>
-            <Chevron className='w-[20px] h-[20px]'/>
+
+      {/* Featured Movies Grid */}
+      <section className="container mx-auto px-6 py-16">
+        <div className="mb-8 flex items-end justify-between">
+          <div>
+            <h2 className="text-3xl font-bold text-white md:text-4xl">Now Playing</h2>
+            <div className="mt-2 h-1 w-20 rounded-full bg-primary shadow-glow" />
+          </div>
+          <Link to='/now-playing' className="group flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80">
+            See All <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
-        <section className='grid grid-cols-1 justify-items-center xl:justify-items-start md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-[80px] gap-y-[44px] pb-6 mt-4'>
-          {
-            genreData && moviesData?.data.results.slice(0,12).map(movie => <FilmCard key={movie.id} movie={movie} genre={genreData}/>)
-          }
-        </section>
-      </section> 
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          {isLoading ? (
+            // Skeleton Loading
+            Array.from({ length: 10 }).map((_, i) => (
+              <div key={i} className="h-[400px] w-full animate-pulse rounded-xl bg-white/5" />
+            ))
+          ) : (
+            moviesData?.data.results.map((movie, index) => (
+              <div key={movie.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 50}ms` }}>
+                <MovieCard 
+                  id={movie.id}
+                  title={movie.title}
+                  posterPath={movie.poster_path}
+                  rating={movie.vote_average}
+                  year={movie.release_date?.split('-')[0] || 'N/A'}
+                  genre={getGenreName(movie.genre_ids[0])}
+                />
+              </div>
+            ))
+          )}
+        </div>
+      </section>
     </main>
   )
 }
