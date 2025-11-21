@@ -1,46 +1,53 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { Mail, Lock, LogIn } from "lucide-react";
+import { Mail, Lock, LogIn, AlertCircle } from "lucide-react";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
-
-interface FormData {
-  email: string;
-  password: string;
-}
+import { useAuth } from "../../contexts/AuthContext";
+import { getAuthErrorMessage, isValidEmail } from "../../lib/auth";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { signIn, signInWithGoogle } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const config = {
-    withCredentials: true,
-    credentials: 'include' as RequestCredentials
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    // Validation
+    if (!isValidEmail(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    if (!password) {
+      setError("Please enter your password");
+      return;
+    }
+
+    setLoading(true);
+
+    const { error: signInError } = await signIn(email, password);
+
+    setLoading(false);
+
+    if (signInError) {
+      setError(getAuthErrorMessage(signInError));
+    } else {
+      navigate("/dashboard");
+    }
   };
 
-  const mutation = useMutation({
-    mutationFn: (newData: FormData) => {
-      return axios.post("http://localhost:3500/auth", newData, config);
-    },
-    onSuccess: (data) => {
-      console.log("User logged in successfully:", data);
-      navigate("/dashboard");
-    },
-    onError: (error) => {
-      console.error("Error creating user:", error);
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const newData: FormData = {
-      email,
-      password,
-    };
-    mutation.mutate(newData);
+  const handleGoogleSignIn = async () => {
+    setError("");
+    const { error: googleError } = await signInWithGoogle();
+    if (googleError) {
+      setError(getAuthErrorMessage(googleError));
+    }
   };
 
   return (
@@ -54,14 +61,27 @@ const Login = () => {
       <div className="relative z-20 w-full max-w-md px-6">
         <div className="glass p-8 rounded-2xl shadow-2xl border border-white/10 animate-fade-in-up">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2 text-glow">Welcome Back</h1>
-            <p className="text-gray-400">Sign in to continue your cinematic journey</p>
+            <h1 className="text-3xl font-bold text-white mb-2 text-glow">
+              Welcome Back
+            </h1>
+            <p className="text-gray-400">
+              Sign in to continue your cinematic journey
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 flex items-start gap-2">
+                <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-red-400">{error}</p>
+              </div>
+            )}
+
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1.5">Email</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                  Email
+                </label>
                 <Input
                   type="email"
                   placeholder="Enter your email"
@@ -71,9 +91,11 @@ const Login = () => {
                   required
                 />
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1.5">Password</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                  Password
+                </label>
                 <Input
                   type="password"
                   placeholder="Enter your password"
@@ -99,7 +121,7 @@ const Login = () => {
               variant="primary"
               className="w-full shadow-glow"
               size="lg"
-              isLoading={mutation.isPending}
+              isLoading={loading}
               icon={<LogIn className="h-4 w-4" />}
             >
               Sign In
@@ -110,7 +132,9 @@ const Login = () => {
                 <div className="w-full border-t border-white/10"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-[#0a0a0a] text-gray-500">Or continue with</span>
+                <span className="px-2 bg-[#0a0a0a] text-gray-500">
+                  Or continue with
+                </span>
               </div>
             </div>
 
@@ -118,7 +142,7 @@ const Login = () => {
               type="button"
               variant="outline"
               className="w-full"
-              onClick={() => {}}
+              onClick={handleGoogleSignIn}
             >
               <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
                 <path

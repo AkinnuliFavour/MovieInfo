@@ -1,13 +1,30 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
 import Button from "./ui/Button";
 import Input from "./ui/Input";
-import { Search, Menu, X } from "lucide-react";
+import {
+  Search,
+  Menu,
+  X,
+  LayoutGrid,
+  Bookmark,
+  MessageSquare,
+  Newspaper,
+  LogOut,
+  User,
+  ChevronDown,
+} from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
+import { getUserInitials, getDisplayName } from "../lib/auth";
 
 const Nav = () => {
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,16 +34,41 @@ const Nav = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowProfileMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/login");
+    setShowProfileMenu(false);
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <>
       <nav
         className={`fixed top-0 z-50 w-full transition-all duration-300 ${
-          isScrolled ? "bg-black/80 backdrop-blur-md shadow-cinematic" : "bg-transparent"
+          isScrolled
+            ? "bg-black/80 backdrop-blur-md shadow-cinematic"
+            : "bg-transparent"
         }`}
       >
         <div className="container mx-auto flex h-20 items-center justify-between px-6">
           {/* Logo */}
-          <Link to="/" className="text-2xl font-display font-bold text-white drop-shadow-lg">
+          <Link
+            to="/"
+            className="text-2xl font-display font-bold text-white drop-shadow-lg"
+          >
             Movie<span className="text-primary">Info</span>
           </Link>
 
@@ -44,16 +86,101 @@ const Nav = () => {
 
           {/* Desktop Actions */}
           <div className="hidden items-center gap-4 lg:flex">
-            <Link to="/login">
-              <Button variant="ghost" className="text-white hover:bg-white/10">
-                Log in
-              </Button>
-            </Link>
-            <Link to="/sign-up">
-              <Button variant="primary" className="shadow-glow">
-                Sign up
-              </Button>
-            </Link>
+            {user ? (
+              <>
+                {/* Dashboard Links */}
+                <Link
+                  to="/dashboard"
+                  className="text-white/80 hover:text-white transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10"
+                >
+                  <LayoutGrid className="h-4 w-4" />
+                  <span className="text-sm font-medium">Dashboard</span>
+                </Link>
+                <Link
+                  to="/dashboard/watchlist"
+                  className="text-white/80 hover:text-white transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10"
+                >
+                  <Bookmark className="h-4 w-4" />
+                  <span className="text-sm font-medium">Watchlist</span>
+                </Link>
+                <Link
+                  to="/dashboard/forums"
+                  className="text-white/80 hover:text-white transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10"
+                >
+                  <MessageSquare className="h-4 w-4" />
+                  <span className="text-sm font-medium">Forums</span>
+                </Link>
+                <Link
+                  to="/dashboard/news"
+                  className="text-white/80 hover:text-white transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10"
+                >
+                  <Newspaper className="h-4 w-4" />
+                  <span className="text-sm font-medium">News</span>
+                </Link>
+
+                {/* User Profile Dropdown */}
+                <div className="relative" ref={profileMenuRef}>
+                  <button
+                    onClick={() => setShowProfileMenu(!showProfileMenu)}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-sm">
+                      {getUserInitials(user?.email)}
+                    </div>
+                    <span className="text-white text-sm font-medium">
+                      {getDisplayName(user?.email)}
+                    </span>
+                    <ChevronDown className="h-4 w-4 text-white/60" />
+                  </button>
+
+                  {showProfileMenu && (
+                    <div className="absolute right-0 mt-2 w-56 bg-gray-900 rounded-lg shadow-xl border border-white/10 py-2 z-50 backdrop-blur-xl">
+                      <div className="px-4 py-3 border-b border-white/10">
+                        <p className="text-sm font-medium text-white">
+                          {getDisplayName(user?.email)}
+                        </p>
+                        <p className="text-xs text-gray-400 truncate">
+                          {user?.email}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setShowProfileMenu(false);
+                          navigate("/dashboard");
+                        }}
+                        className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-white/5 transition-colors"
+                      >
+                        <User className="h-4 w-4" />
+                        Profile
+                      </button>
+                      <button
+                        onClick={handleSignOut}
+                        className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button
+                    variant="ghost"
+                    className="text-white hover:bg-white/10"
+                  >
+                    Log in
+                  </Button>
+                </Link>
+                <Link to="/sign-up">
+                  <Button variant="primary" className="shadow-glow">
+                    Sign up
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -79,16 +206,89 @@ const Nav = () => {
               icon={<Search className="h-4 w-4 text-white/50" />}
             />
             <div className="flex flex-col gap-4">
-              <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full text-white justify-start">
-                  Log in
-                </Button>
-              </Link>
-              <Link to="/sign-up" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="primary" className="w-full justify-start shadow-glow">
-                  Sign up
-                </Button>
-              </Link>
+              {user ? (
+                <>
+                  {/* Mobile Dashboard Links */}
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                  >
+                    <LayoutGrid className="h-5 w-5 text-primary" />
+                    <span className="text-white font-medium">Dashboard</span>
+                  </Link>
+                  <Link
+                    to="/dashboard/watchlist"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                  >
+                    <Bookmark className="h-5 w-5 text-primary" />
+                    <span className="text-white font-medium">Watchlist</span>
+                  </Link>
+                  <Link
+                    to="/dashboard/forums"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                  >
+                    <MessageSquare className="h-5 w-5 text-primary" />
+                    <span className="text-white font-medium">Forums</span>
+                  </Link>
+                  <Link
+                    to="/dashboard/news"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                  >
+                    <Newspaper className="h-5 w-5 text-primary" />
+                    <span className="text-white font-medium">News</span>
+                  </Link>
+
+                  {/* Mobile User Profile */}
+                  <div className="mt-4 pt-4 border-t border-white/10">
+                    <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 mb-3">
+                      <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-semibold">
+                        {getUserInitials(user?.email)}
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-white font-medium text-sm">
+                          {getDisplayName(user?.email)}
+                        </p>
+                        <p className="text-gray-400 text-xs truncate">
+                          {user?.email}
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleSignOut}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-red-500/10 hover:bg-red-500/20 transition-colors text-red-400"
+                    >
+                      <LogOut className="h-5 w-5" />
+                      <span className="font-medium">Sign Out</span>
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button
+                      variant="ghost"
+                      className="w-full text-white justify-start"
+                    >
+                      Log in
+                    </Button>
+                  </Link>
+                  <Link
+                    to="/sign-up"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Button
+                      variant="primary"
+                      className="w-full justify-start shadow-glow"
+                    >
+                      Sign up
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

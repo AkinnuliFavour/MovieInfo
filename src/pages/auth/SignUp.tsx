@@ -1,39 +1,65 @@
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { Mail, Lock, UserPlus } from "lucide-react";
+import { useNavigate, Link } from "react-router-dom";
+import { Mail, Lock, UserPlus, AlertCircle, CheckCircle } from "lucide-react";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
-
-interface FormData {
-  email: string;
-  password: string;
-}
+import { useAuth } from "../../contexts/AuthContext";
+import {
+  getAuthErrorMessage,
+  isValidEmail,
+  isValidPassword,
+} from "../../lib/auth";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const { signUp, signInWithGoogle } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const mutation = useMutation({
-    mutationFn: (newData: FormData) => {
-      return axios.post("http://localhost:3500/users", newData);
-    },
-    onSuccess: (data) => {
-      console.log("User Created successfully:", data);
-    },
-    onError: (error) => {
-      console.error("Error creating user:", error);
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newData: FormData = {
-      email,
-      password,
-    };
-    mutation.mutate(newData);
+    setError("");
+    setSuccess("");
+
+    // Validation
+    if (!isValidEmail(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    const passwordValidation = isValidPassword(password);
+    if (!passwordValidation.valid) {
+      setError(passwordValidation.message);
+      return;
+    }
+
+    setLoading(true);
+
+    const { error: signUpError } = await signUp(email, password);
+
+    setLoading(false);
+
+    if (signUpError) {
+      setError(getAuthErrorMessage(signUpError));
+    } else {
+      setSuccess(
+        "Account created! Please check your email to verify your account."
+      );
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setError("");
+    const { error: googleError } = await signInWithGoogle();
+    if (googleError) {
+      setError(getAuthErrorMessage(googleError));
+    }
   };
 
   return (
@@ -47,14 +73,34 @@ const Signup = () => {
       <div className="relative z-20 w-full max-w-md px-6">
         <div className="glass p-8 rounded-2xl shadow-2xl border border-white/10 animate-fade-in-up">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2 text-glow">Create Account</h1>
-            <p className="text-gray-400">Join the community of movie enthusiasts</p>
+            <h1 className="text-3xl font-bold text-white mb-2 text-glow">
+              Create Account
+            </h1>
+            <p className="text-gray-400">
+              Join the community of movie enthusiasts
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 flex items-start gap-2">
+                <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-red-400">{error}</p>
+              </div>
+            )}
+
+            {success && (
+              <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3 flex items-start gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-green-400">{success}</p>
+              </div>
+            )}
+
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1.5">Email</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                  Email
+                </label>
                 <Input
                   type="email"
                   placeholder="Enter your email"
@@ -64,12 +110,14 @@ const Signup = () => {
                   required
                 />
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1.5">Password</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                  Password
+                </label>
                 <Input
                   type="password"
-                  placeholder="Create a password"
+                  placeholder="Create a password (min 6 characters)"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   icon={<Lock className="h-4 w-4" />}
@@ -83,7 +131,7 @@ const Signup = () => {
               variant="primary"
               className="w-full shadow-glow"
               size="lg"
-              isLoading={mutation.isPending}
+              isLoading={loading}
               icon={<UserPlus className="h-4 w-4" />}
             >
               Sign Up
@@ -94,7 +142,9 @@ const Signup = () => {
                 <div className="w-full border-t border-white/10"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-[#0a0a0a] text-gray-500">Or continue with</span>
+                <span className="px-2 bg-[#0a0a0a] text-gray-500">
+                  Or continue with
+                </span>
               </div>
             </div>
 
@@ -102,7 +152,7 @@ const Signup = () => {
               type="button"
               variant="outline"
               className="w-full"
-              onClick={() => {}}
+              onClick={handleGoogleSignIn}
             >
               <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
                 <path
