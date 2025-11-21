@@ -1,9 +1,9 @@
-import React from "react";
+
 import { News } from "../components/NewsCard";
 import { formatDate, breakIntoParagraphs } from "../../../lib/utils";
-import { getFullArticle } from "../../../lib/getArticle";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+
+
+
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -17,9 +17,7 @@ const SingleNewsPage = ({
 
   const url = "http://localhost:3500/articles";
 
-  const params = {
-    url: news.url,
-  };
+
 
   const config = {
     withCredentials: true,
