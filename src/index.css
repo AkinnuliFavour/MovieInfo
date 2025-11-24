@@ -16,7 +16,7 @@
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 263.4 70% 50.4%;
+    --primary: 192 44% 36%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 240 3.7% 15.9%;
@@ -70,7 +70,7 @@
   }
 
   .text-glow-primary {
-    text-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+    text-shadow: 0 0 20px rgba(54, 117, 136, 0.5);
   }
 
   .animate-slide-in-from-top {
