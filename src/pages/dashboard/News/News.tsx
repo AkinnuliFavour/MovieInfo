@@ -32,7 +32,7 @@ const News = () => {
   useEffect(() => {
     const fetchNews = async () => {
       const response = await axios.get(
-        "https://newsapi.org/v2/everything?q=Movie&from=2024-07-01&sortBy=popularity&apiKey=75e98f479be948cebad68ba962e010fe"
+        "https://newsapi.org/v2/everything?q=Movie&from=2024&sortBy=popularity&apiKey=75e98f479be948cebad68ba962e010fe"
       );
       console.log(response.data);
       setNewsData(response.data);
