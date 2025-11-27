@@ -16,19 +16,15 @@ export interface Movie {
 }
 
 export interface MoviesData {
-  data: {
-    page: number;
-    results: Movie[];
-    total_pages: number;
-    total_results: number;
-  };
+  page: number;
+  results: Movie[];
+  total_pages: number;
+  total_results: number;
 }
 
 export interface GenreData {
-  data: {
-    genres: {
-      id: number;
-      name: string;
-    }[];
-  };
+  genres: {
+    id: number;
+    name: string;
+  }[];
 }

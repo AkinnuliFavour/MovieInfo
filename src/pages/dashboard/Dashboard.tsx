@@ -105,7 +105,7 @@ const Dashboard = () => {
           <Pagination
             page={page}
             setPage={setPage}
-            totalMovies={moviesData.data.total_results}
+            totalMovies={moviesData.total_results}
           />
         </div>
       )}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Compass, Smile, Moon, Flame, Heart, Zap } from "lucide-react";
-import Nav from "../../components/Nav";
+// import Nav from "../../components/Nav";
 import MovieCard from "../../components/ui/MovieCard";
 import { GenreData, Movie } from "../../types/movie";
 
@@ -101,12 +101,12 @@ const Explore = () => {
   };
 
   const getGenreName = (id: number) => {
-    return genreData?.data.genres.find((g) => g.id === id)?.name;
+    return genreData?.genres.find((g) => g.id === id)?.name;
   };
 
   return (
     <main className="min-h-screen bg-background text-white font-sans selection:bg-primary/30">
-      <Nav />
+      {/* <Nav /> */}
 
       <div className="container mx-auto px-6 pt-24 pb-12">
         {/* Hero Banner */}
@@ -163,7 +163,7 @@ const Explore = () => {
               <span>🎬</span> Browse by Genre
             </h2>
             <div className="flex flex-wrap gap-3">
-              {genreData?.data.genres.map((genre) => (
+              {genreData?.genres.map((genre) => (
                 <button
                   key={genre.id}
                   onClick={() => handleGenreClick(genre.id)}
@@ -187,7 +187,7 @@ const Explore = () => {
             {selectedMood
               ? `${selectedMood} Movies`
               : selectedGenre && genreData
-                ? `${genreData.data.genres.find((g) => g.id === selectedGenre)?.name} Movies`
+                ? `${genreData.genres.find((g) => g.id === selectedGenre)?.name} Movies`
                 : "Trending Now"}
           </h2>
 
