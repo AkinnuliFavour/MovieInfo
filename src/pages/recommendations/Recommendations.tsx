@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Sparkles } from "lucide-react";
-import Nav from "../../components/Nav";
+// import Nav from "../../components/Nav";
 import MovieCard from "../../components/ui/MovieCard";
 import { GenreData, Movie } from "../../types/movie";
 
@@ -100,8 +100,6 @@ const Recommendations = () => {
 
   return (
     <main className="min-h-screen bg-background text-white font-sans selection:bg-primary/30">
-      <Nav />
-
       <div className="container mx-auto pt-24 pb-12">
         <div className="px-6 mb-12 text-center">
           <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3 text-glow">
