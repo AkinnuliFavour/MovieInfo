@@ -216,36 +216,38 @@ const ReleaseCalendar = () => {
                   className="flex items-center gap-4 bg-white/5 p-4 rounded-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all group"
                   style={{ animationDelay: `${idx * 50}ms` }}
                 >
-                  <div className="w-16 h-24 bg-gray-800 rounded-lg overflow-hidden shrink-0 shadow-lg">
+                  <div className="hidden sm:block w-16 h-24 bg-gray-800 rounded-lg overflow-hidden shrink-0 shadow-lg">
                     <img
                       src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
                       alt={movie.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-bold text-lg text-white group-hover:text-primary transition-colors">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-base sm:text-lg text-white group-hover:text-primary transition-colors truncate sm:whitespace-normal">
                       {movie.title}
                     </h3>
-                    <p className="text-gray-400 flex items-center gap-2">
-                      <CalendarIcon className="h-4 w-4" />
-                      {new Date(movie.release_date).toLocaleDateString(
-                        undefined,
-                        {
-                          weekday: "long",
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        }
-                      )}
+                    <p className="text-gray-400 flex items-center gap-2 text-sm mt-1">
+                      <CalendarIcon className="h-4 w-4 shrink-0" />
+                      <span className="truncate sm:whitespace-normal">
+                        {new Date(movie.release_date).toLocaleDateString(
+                          undefined,
+                          {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )}
+                      </span>
                     </p>
-                    <p className="text-sm text-gray-500 mt-2 line-clamp-2">
+                    <p className="text-sm text-gray-500 mt-2 line-clamp-2 hidden sm:block">
                       {movie.overview}
                     </p>
                   </div>
                   <Link
                     to={`/movie-details/${movie.id}`}
-                    className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-glow opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0"
+                    className="px-4 sm:px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-glow sm:opacity-0 sm:group-hover:opacity-100 sm:transform sm:translate-x-4 sm:group-hover:translate-x-0 shrink-0 text-sm sm:text-base"
                   >
                     Details
                   </Link>

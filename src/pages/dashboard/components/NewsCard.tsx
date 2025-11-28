@@ -2,16 +2,16 @@ import { formatDate } from "../../../lib/utils";
 
 export interface News {
   source: {
-    id: string;
+    id: string | null;
     name: string;
   };
-  author: string;
+  author: string | null;
   title: string;
-  description: string;
+  description: string | null;
   url: string;
-  urlToImage: string;
+  urlToImage: string | null;
   publishedAt: string;
-  content: string;
+  content: string | null;
 }
 
 const NewsCard = ({
