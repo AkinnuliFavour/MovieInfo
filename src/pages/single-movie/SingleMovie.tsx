@@ -13,7 +13,7 @@ import {
 import Nav from "../../components/Nav";
 import Button from "../../components/ui/Button";
 import Chip from "../../components/ui/Chip";
-import RatingsReviews from "../../components/RatingsReviews";
+// import RatingsReviews from "../../components/RatingsReviews";
 import SimilarMovies from "../../components/SimilarMovies";
 import {
   addToWatchlist,
@@ -319,7 +319,7 @@ const SingleMovie = () => {
           </section>
 
           {/* Reviews */}
-          <section
+          {/* <section
             className="animate-fade-in-up"
             style={{ animationDelay: "300ms" }}
           >
@@ -330,7 +330,7 @@ const SingleMovie = () => {
                 movieTitle={movieDetails.data.title}
               />
             )}
-          </section>
+          </section> */}
         </div>
 
         {/* Sidebar */}

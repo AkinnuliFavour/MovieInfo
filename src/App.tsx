@@ -11,7 +11,7 @@ import Signup from "./pages/auth/SignUp";
 import Login from "./pages/auth/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 import DashboardLayout from "./pages/dashboard/layouts/DashboardLayout";
-import Forums from "./pages/dashboard/Forums";
+// import Forums from "./pages/dashboard/Forums";
 import News from "./pages/dashboard/News/News";
 // import Settings from "./pages/settings/Settings";
 import Watchlist from "./pages/dashboard/Watchlist";
@@ -67,7 +67,7 @@ function App() {
                 }
               >
                 <Route index element={<Dashboard />} />
-                <Route path="forums" element={<Forums />} />
+                {/* <Route path="forums" element={<Forums />} /> */}
                 <Route path="news" element={<News />} />
                 <Route path="single-news/:url" element={<News />} />
                 <Route path="watchlist" element={<Watchlist />} />

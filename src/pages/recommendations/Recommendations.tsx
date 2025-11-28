@@ -20,29 +20,36 @@ const MovieCarousel = ({
 
   return (
     <div className="mb-12 animate-fade-in-up">
-      <h2 className="text-2xl font-bold mb-6 px-6 text-white flex items-center gap-2">
+      <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
         <div className="h-8 w-1 bg-primary rounded-full"></div>
         {title}
       </h2>
-      <div className="flex overflow-x-auto pb-8 px-6 gap-6 scrollbar-hide snap-x">
-        {movies.map((movie, index) => (
-          <div
-            key={movie.id}
-            className="snap-start shrink-0 w-[200px]"
-            style={{ animationDelay: `${index * 50}ms` }}
-          >
-            <MovieCard
-              id={movie.id}
-              title={movie.title}
-              posterPath={movie.poster_path}
-              rating={movie.vote_average}
-              year={movie.release_date?.split("-")[0] || "N/A"}
-              genre={
-                movie.genre_ids ? getGenreName(movie.genre_ids[0]) : undefined
-              }
-            />
-          </div>
-        ))}
+      <div className="relative group">
+        <div className="flex overflow-x-auto pb-8 px-6 gap-6 snap-x snap-mandatory scroll-smooth hover-scroll">
+          {movies.map((movie, index) => (
+            <div
+              key={movie.id}
+              className="snap-start shrink-0 w-[200px] transition-transform duration-300 hover:scale-105"
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
+              <MovieCard
+                id={movie.id}
+                title={movie.title}
+                posterPath={movie.poster_path}
+                rating={movie.vote_average}
+                year={movie.release_date?.split("-")[0] || "N/A"}
+                genre={
+                  movie.genre_ids ? getGenreName(movie.genre_ids[0]) : undefined
+                }
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Custom Scrollbar Indicator */}
+        {/* <div className="absolute bottom-2 left-1/2 -translate-x-1/2 h-1 w-32 bg-white/10 rounded-full overflow-hidden">
+          <div className="h-full w-1/3 bg-primary rounded-full animate-pulse"></div>
+        </div> */}
       </div>
     </div>
   );

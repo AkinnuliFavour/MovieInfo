@@ -8,11 +8,14 @@ import {
   X,
   LayoutGrid,
   Bookmark,
-  MessageSquare,
+  // MessageSquare,
   Newspaper,
   LogOut,
   User,
   ChevronDown,
+  SearchIcon,
+  Sparkles,
+  Calendar,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { getUserInitials, getDisplayName } from "../lib/auth";
@@ -103,19 +106,19 @@ const Nav = () => {
                   <Bookmark className="h-4 w-4" />
                   <span className="text-sm font-medium">Watchlist</span>
                 </Link>
-                <Link
+                {/* <Link
                   to="/dashboard/forums"
                   className="text-white/80 hover:text-white transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10"
                 >
                   <MessageSquare className="h-4 w-4" />
                   <span className="text-sm font-medium">Forums</span>
-                </Link>
+                </Link> */}
                 <Link
-                  to="/dashboard/news"
+                  to="/dashboard/explore"
                   className="text-white/80 hover:text-white transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10"
                 >
-                  <Newspaper className="h-4 w-4" />
-                  <span className="text-sm font-medium">News</span>
+                  <SearchIcon className="h-4 w-4" />
+                  <span className="text-sm font-medium">Explore</span>
                 </Link>
 
                 {/* User Profile Dropdown */}
@@ -153,6 +156,27 @@ const Nav = () => {
                         <User className="h-4 w-4" />
                         Profile
                       </button>
+                      <button
+                        onClick={() => {
+                          setShowProfileMenu(false);
+                          navigate("/dashboard/recommendations");
+                        }}
+                        className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-white/5 transition-colors"
+                      >
+                        <Sparkles className="h-4 w-4" />
+                        Recommendations
+                      </button>
+                      <button
+                        onClick={() => {
+                          setShowProfileMenu(false);
+                          navigate("/dashboard/calendar");
+                        }}
+                        className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-white/5 transition-colors"
+                      >
+                        <Calendar className="h-4 w-4" />
+                        Release Calendar
+                      </button>
+                      <div className="h-px bg-white/10 my-2"></div>
                       <button
                         onClick={handleSignOut}
                         className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
@@ -226,12 +250,12 @@ const Nav = () => {
                     <span className="text-white font-medium">Watchlist</span>
                   </Link>
                   <Link
-                    to="/dashboard/forums"
+                    to="/dashboard/explore"
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
                   >
-                    <MessageSquare className="h-5 w-5 text-primary" />
-                    <span className="text-white font-medium">Forums</span>
+                    <Search className="h-5 w-5 text-primary" />
+                    <span className="text-white font-medium">Explore</span>
                   </Link>
                   <Link
                     to="/dashboard/news"
@@ -240,6 +264,26 @@ const Nav = () => {
                   >
                     <Newspaper className="h-5 w-5 text-primary" />
                     <span className="text-white font-medium">News</span>
+                  </Link>
+                  <Link
+                    to="/dashboard/recommendations"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                  >
+                    <Sparkles className="h-5 w-5 text-primary" />
+                    <span className="text-white font-medium">
+                      Recommendations
+                    </span>
+                  </Link>
+                  <Link
+                    to="/dashboard/calendar"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                  >
+                    <Calendar className="h-5 w-5 text-primary" />
+                    <span className="text-white font-medium">
+                      Release Calendar
+                    </span>
                   </Link>
 
                   {/* Mobile User Profile */}

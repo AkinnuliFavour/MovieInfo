@@ -102,4 +102,47 @@
       opacity: 1;
     }
   }
+
+  /* Modern Custom Scrollbar for Carousels */
+  .hover-scroll::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .hover-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    margin: 0 1.5rem;
+  }
+
+  .hover-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary)) 0%,
+      rgba(54, 117, 136, 0.6) 100%
+    );
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .hover-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--primary)) 100%
+    );
+    box-shadow: 0 0 10px hsl(var(--primary));
+  }
+
+  /* Firefox scrollbar */
+  .hover-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary)) rgba(255, 255, 255, 0.05);
+  }
+
+  /* Hide scrollbar when not hovering on mobile */
+  @media (max-width: 768px) {
+    .hover-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+  }
 }
