@@ -106,19 +106,19 @@ const Nav = () => {
                   <Bookmark className="h-4 w-4" />
                   <span className="text-sm font-medium">Watchlist</span>
                 </Link>
-                {/* <Link
-                  to="/dashboard/forums"
-                  className="text-white/80 hover:text-white transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10"
-                >
-                  <MessageSquare className="h-4 w-4" />
-                  <span className="text-sm font-medium">Forums</span>
-                </Link> */}
                 <Link
                   to="/dashboard/explore"
                   className="text-white/80 hover:text-white transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10"
                 >
                   <SearchIcon className="h-4 w-4" />
                   <span className="text-sm font-medium">Explore</span>
+                </Link>
+                <Link
+                  to="/dashboard/news"
+                  className="text-white/80 hover:text-white transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10"
+                >
+                  <Newspaper className="h-4 w-4" />
+                  <span className="text-sm font-medium">News</span>
                 </Link>
 
                 {/* User Profile Dropdown */}

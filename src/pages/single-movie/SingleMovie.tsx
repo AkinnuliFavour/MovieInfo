@@ -1,15 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  Play,
-  Star,
-  Calendar,
-  Clock,
-  Bookmark,
-  Share2,
-  MessageCircle,
-} from "lucide-react";
+import { useParams } from "react-router-dom";
+import { Play, Star, Calendar, Clock, Bookmark } from "lucide-react";
 import Nav from "../../components/Nav";
 import Button from "../../components/ui/Button";
 import Chip from "../../components/ui/Chip";
@@ -76,7 +68,7 @@ interface MovieCredits {
 
 const SingleMovie = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [movieDetails, setMovieDetails] = useState<MovieDetails>();
   const [movieVideos, setMovieVideos] = useState<MovieVideos>();
   const [movieCredits, setMovieCredits] = useState<MovieCredits>();
@@ -252,7 +244,7 @@ const SingleMovie = () => {
                 />
                 {isInWatchlistState ? "In Watchlist" : "Add to Watchlist"}
               </Button>
-              <Button
+              {/* <Button
                 variant="outline"
                 size="lg"
                 className="gap-2 border-primary/50 text-primary hover:bg-primary/10"
@@ -267,7 +259,7 @@ const SingleMovie = () => {
                 className="rounded-full bg-white/5 hover:bg-white/10"
               >
                 <Share2 className="h-5 w-5" />
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>

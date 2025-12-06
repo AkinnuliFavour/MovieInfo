@@ -40,8 +40,8 @@ export default {
         ring: "hsl(var(--ring))",
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
-        display: ["Outfit", "sans-serif"],
+        sans: ["Geist", "Outfit", "Inter", "system-ui", "sans-serif"],
+        display: ["Outfit", "Geist", "Inter", "system-ui", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
