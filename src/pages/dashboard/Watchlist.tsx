@@ -18,7 +18,7 @@ const Watchlist = () => {
       setWatchlist(getWatchlist());
 
       try {
-        const genre: GenreData = await axios.get(
+        const genre = await axios.get<GenreData>(
           "https://api.themoviedb.org/3/genre/movie/list?language=en",
           {
             params: {
@@ -26,7 +26,7 @@ const Watchlist = () => {
             },
           }
         );
-        setGenreData(genre);
+        setGenreData(genre.data);
       } catch (error) {
         console.error("Error fetching genres:", error);
       } finally {
@@ -42,7 +42,7 @@ const Watchlist = () => {
   };
 
   const getGenreName = (id: number) => {
-    return genreData?.data.genres.find((g) => g.id === id)?.name;
+    return genreData?.genres.find((g) => g.id === id)?.name;
   };
 
   return (

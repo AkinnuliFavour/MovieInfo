@@ -17,9 +17,9 @@ const Search = () => {
       setIsLoading(true);
       try {
         const url = `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&query=${title}&page=1&include_adult=false`;
-        const movies = await axios.get(url);
+        const movies = await axios.get<MoviesData>(url);
 
-        const genre: GenreData = await axios.get(
+        const genre = await axios.get<GenreData>(
           "https://api.themoviedb.org/3/genre/movie/list?language=en",
           {
             params: {
@@ -54,7 +54,7 @@ const Search = () => {
             Search Results for <span className="text-primary">"{title}"</span>
           </h1>
           <p className="text-gray-400 mt-2">
-            Found {moviesData?.data.total_results || 0} movies
+            Found {moviesData?.total_results || 0} movies
           </p>
         </div>
 

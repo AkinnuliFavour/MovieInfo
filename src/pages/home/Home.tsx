@@ -6,7 +6,7 @@ import Nav from "../../components/Nav";
 import MovieCard from "../../components/ui/MovieCard";
 import Button from "../../components/ui/Button";
 
-import { MoviesData, GenreData } from "../../types/movie";
+import { MoviesData, GenreData, Movie } from "../../types/movie";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Home = () => {
   useEffect(() => {
     const getMovies = async () => {
       try {
-        const movies: MoviesData = await axios.get(
+        const movies = await axios.get<MoviesData>(
           "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
           {
             params: {
@@ -27,7 +27,7 @@ const Home = () => {
           }
         );
 
-        const genre: GenreData = await axios.get(
+        const genre = await axios.get<GenreData>(
           "https://api.themoviedb.org/3/genre/movie/list?language=en",
           {
             params: {
@@ -36,8 +36,8 @@ const Home = () => {
           }
         );
 
-        setMoviesData(movies);
-        setGenreData(genre);
+        setMoviesData(movies.data);
+        setGenreData(genre.data);
       } catch (error) {
         console.error("Failed to fetch movies:", error);
       } finally {
@@ -47,13 +47,13 @@ const Home = () => {
     getMovies();
   }, []);
 
-  const featuredMovie = moviesData?.data.results[0];
+  const featuredMovie = moviesData?.results[0];
   const imageUrl = featuredMovie
     ? `https://image.tmdb.org/t/p/original/${featuredMovie.backdrop_path}`
     : "";
 
   const getGenreName = (id: number) => {
-    return genreData?.data.genres.find((g) => g.id === id)?.name;
+    return genreData?.genres.find((g) => g.id === id)?.name;
   };
 
   return (
@@ -166,7 +166,7 @@ const Home = () => {
                   className="h-[400px] w-full animate-pulse rounded-xl bg-white/5"
                 />
               ))
-            : moviesData?.data.results.map((movie, index) => (
+            : moviesData?.results.map((movie: Movie, index: number) => (
                 <div
                   key={movie.id}
                   className="animate-fade-in-up"
