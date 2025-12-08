@@ -15,7 +15,7 @@ const Dashboard = () => {
     const getMovies = async () => {
       setLoading(true);
       try {
-        const movies: MoviesData = await axios.get(
+        const moviesRes = await axios.get<MoviesData>(
           `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=28`,
           {
             params: {
@@ -24,7 +24,7 @@ const Dashboard = () => {
           }
         );
 
-        const genre: GenreData = await axios.get(
+        const genreRes = await axios.get<GenreData>(
           "https://api.themoviedb.org/3/genre/movie/list?language=en",
           {
             params: {
@@ -33,8 +33,8 @@ const Dashboard = () => {
           }
         );
 
-        setMoviesData(movies);
-        setGenreData(genre);
+        setMoviesData(moviesRes.data);
+        setGenreData(genreRes.data);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       } finally {
@@ -45,7 +45,7 @@ const Dashboard = () => {
   }, [page]);
 
   const getGenreName = (id: number) => {
-    return genreData?.data.genres.find((g) => g.id === id)?.name;
+    return genreData?.genres.find((g) => g.id === id)?.name;
   };
 
   return (
@@ -78,7 +78,7 @@ const Dashboard = () => {
           className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 animate-fade-in-up"
           style={{ animationDelay: "100ms" }}
         >
-          {moviesData?.data.results.map((movie, index) => (
+          {moviesData?.results.map((movie, index) => (
             <div
               key={movie.id}
               style={{ animationDelay: `${index * 50}ms` }}
