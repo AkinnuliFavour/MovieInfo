@@ -3,7 +3,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3001", // adjust this to your API's URL
+  baseURL: "https://movieinfo-server-1.vercel.app", // adjust this to your API's URL
   withCredentials: true, // This is the key setting
 });
 
